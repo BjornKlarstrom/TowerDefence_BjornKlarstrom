@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,16 +5,23 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
-    [SerializeField] float moveDelay = 1f;
 
     void Start(){
-        StartCoroutine(PrintWaypoints());
+        StartCoroutine(MoveToNextWaypoint());
     }
 
-    IEnumerator PrintWaypoints(){
+    IEnumerator MoveToNextWaypoint(){
+        
         foreach (var waypoint in path){
-            this.transform.position = waypoint.transform.position;
-            yield return new WaitForSeconds(moveDelay);
+            var startPosition = this.transform.position;
+            var endPosition = waypoint.transform.position;
+            var movedPercent = 0.0f;
+
+            while (movedPercent < 1.0f){
+                movedPercent += Time.deltaTime;
+                this.transform.position = Vector3.Lerp(startPosition, endPosition, movedPercent);
+                yield return new WaitForEndOfFrame();
+            }
         }
     }
 }
