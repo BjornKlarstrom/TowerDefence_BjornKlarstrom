@@ -7,6 +7,7 @@
 [Ll]ocal[Cc]ache/
 [Oo]bj/
 [Tt]emp/
+[Ii]dea/
 [Uu]nityGenerated/
 # file on crash reports
 sysinfo.txt
@@ -39,3 +40,8 @@ sysinfo.txt
 Icon?
 ehthumbs.db
 Thumbs.db
+.idea/.idea.TowerDefence_BjornKlarstrom/.idea/codeStyles/codeStyleConfig.xml
+.idea/.idea.TowerDefence_BjornKlarstrom/.idea/encodings.xml
+.idea/.idea.TowerDefence_BjornKlarstrom/.idea/indexLayout.xml
+.idea/.idea.TowerDefence_BjornKlarstrom/.idea/vcs.xml
+.idea/.idea.TowerDefence_BjornKlarstrom/riderModule.iml

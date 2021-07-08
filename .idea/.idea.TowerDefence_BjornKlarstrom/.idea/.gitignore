@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/contentModel.xml
+/.idea.TowerDefence_BjornKlarstrom.iml
+/modules.xml
+# Datasource local storage ignored files
+/../../../../../../../../../:\Users\Bergman\Desktop\UnityProjects\TowerDefence_BjornKlarstrom\.idea\.idea.TowerDefence_BjornKlarstrom\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
