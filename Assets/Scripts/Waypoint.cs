@@ -1,8 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Waypoint : MonoBehaviour
-{
+public class Waypoint : MonoBehaviour{
     
+    [SerializeField] bool isPlaceable;
+    void OnMouseDown(){
+        if (isPlaceable){
+            Debug.Log(transform.name);
+            isPlaceable = false;
+        }
+    }
 }
