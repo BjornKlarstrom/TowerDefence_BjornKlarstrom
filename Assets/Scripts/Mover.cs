@@ -6,6 +6,7 @@ public class Mover : MonoBehaviour
 {
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
     [SerializeField] [Range(0.1f, 10.0f)] float speed = 1.0f;
+    [SerializeField] float waypointYOffset = 5.0f;
 
     void Start(){
         StartCoroutine(MoveToNextWaypoint());
@@ -16,6 +17,7 @@ public class Mover : MonoBehaviour
         foreach (var waypoint in path){
             var startPosition = this.transform.position;
             var endPosition = waypoint.transform.position;
+            endPosition = new Vector3(endPosition.x, waypointYOffset, endPosition.z);
             var movedPercent = 0.0f;
             
             this.transform.LookAt(endPosition);
