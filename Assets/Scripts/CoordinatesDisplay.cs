@@ -4,20 +4,40 @@ using Unity.VisualScripting;
 
 [ExecuteAlways]
 public class CoordinatesDisplay : MonoBehaviour{
+
+    [SerializeField] Color defaultColor = Color.white;
+    [SerializeField] Color blockedColor = Color.grey;
     
     TextMeshPro coordinateText;
     Vector2Int coordinates;
     Vector3 position;
+    Waypoint waypoint;
 
     void Awake(){
         coordinateText = GetComponent<TextMeshPro>();
+        coordinateText.enabled = false;
+        this.waypoint = GetComponentInParent<Waypoint>();
         Display();
     }
 
     void Update(){
-        if (Application.isPlaying) return;
-        Display();
-        DisplayInHierarchy();
+        if (!Application.isPlaying){
+            Display();
+            DisplayInHierarchy();  
+            ToggleCoordinateText();
+        }
+        ColorDisplay();
+        ToggleCoordinateText();
+    }
+
+    void ToggleCoordinateText(){
+        if (Input.GetKeyDown(KeyCode.C)){
+            coordinateText.enabled = !coordinateText.IsActive();
+        }
+    }
+
+    void ColorDisplay(){
+        coordinateText.color = waypoint.IsPlaceable ? defaultColor : blockedColor;
     }
 
     void Display(){

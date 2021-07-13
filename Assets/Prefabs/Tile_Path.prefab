@@ -7,9 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4994658893743796240, guid: 90255653f8b5399418d5841030adbb23, type: 3}
-      propertyPath: m_Name
-      value: PathMesh
+    - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: blockedColor.b
+      value: 0.22700001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: blockedColor.g
+      value: 0.22700001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: blockedColor.r
+      value: 0.22700001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270119606170136183, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: isPlaceable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -62,6 +74,26 @@ PrefabInstance:
     - target: {fileID: 4994658895151498245, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727997426868966574, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_text
+      value: 0,0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727997426868966574, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.22700001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727997426868966574, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.22700001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727997426868966574, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.22700001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727997426868966574, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4282006074
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90255653f8b5399418d5841030adbb23, type: 3}
