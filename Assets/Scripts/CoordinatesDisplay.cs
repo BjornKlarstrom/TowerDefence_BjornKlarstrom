@@ -15,7 +15,7 @@ public class CoordinatesDisplay : MonoBehaviour{
 
     void Awake(){
         coordinateText = GetComponent<TextMeshPro>();
-        coordinateText.enabled = false;
+        coordinateText.enabled = true;
         this.waypoint = GetComponentInParent<Waypoint>();
         Display();
     }
@@ -23,8 +23,7 @@ public class CoordinatesDisplay : MonoBehaviour{
     void Update(){
         if (!Application.isPlaying){
             Display();
-            DisplayInHierarchy();  
-            ToggleCoordinateText();
+            DisplayInHierarchy();
         }
         ColorDisplay();
         ToggleCoordinateText();
