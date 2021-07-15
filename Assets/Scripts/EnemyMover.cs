@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,12 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
     [SerializeField] [Range(0.1f, 10.0f)] float speed = 1.0f;
     [SerializeField] float waypointYOffset = 5.0f;
+
+    Enemy enemy;
+
+    void Start(){
+        this.enemy = GetComponent<Enemy>();
+    }
 
     void OnEnable(){
         FindPath();
@@ -47,6 +54,7 @@ public class EnemyMover : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
+        enemy.StealGold();
         DisableEnemy();
     }
 }

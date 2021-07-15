@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class Aim : MonoBehaviour{
     [SerializeField] Transform weapon;
+    [SerializeField] float shootingRange = 10.0f;
+    [SerializeField] ParticleSystem bulletParticle;
     Transform target;
     
     void Update(){
+        FindClosestTarget();
         AimAtTarget();
     }
 
     void AimAtTarget(){
+        var targetDistance = Vector3.Distance(this.transform.position, target.position);
         weapon.LookAt(target);
+
+        Shoot(targetDistance <= shootingRange);
     }
 
     void FindClosestTarget(){
@@ -22,6 +28,19 @@ public class Aim : MonoBehaviour{
 
         foreach (var enemy in enemies){
             var targetDistance = Vector3.Distance(this.transform.position, enemy.transform.position);
+
+            if (!(targetDistance < maxDistance)) continue;
+            closestTarget = enemy.transform;
+            maxDistance = targetDistance;
         }
+
+        if (closestTarget is { }) this.target = closestTarget.transform;
+    }
+
+    void Shoot(bool isActive){
+        Debug.Log("In Range (Shoot)");
+        Debug.Log(isActive);
+        var emission = bulletParticle.emission;
+        emission.enabled = isActive;
     }
 }

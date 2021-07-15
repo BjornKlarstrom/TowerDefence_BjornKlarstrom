@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour{
     [SerializeField] int maxHealth = 5;
-    int currentHealth = 0;
+    int currentHealth;
+    Enemy enemy;
+
+    void Start(){
+        enemy = GetComponent<Enemy>();
+    }
 
     void OnEnable(){
         this.currentHealth = this.maxHealth;
@@ -21,6 +26,7 @@ public class EnemyHealth : MonoBehaviour{
 
         if (currentHealth <= 0){
             this.gameObject.SetActive(false);
+            enemy.RewardGold();
         }
     }
 }

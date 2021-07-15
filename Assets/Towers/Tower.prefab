@@ -4981,6 +4981,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8407406620463241641}
   - component: {fileID: 402866981673279621}
+  - component: {fileID: 6621904191223749045}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -5017,3 +5018,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 2839426098803725399}
+  shootingRange: 25
+  bulletParticle: {fileID: 7744412305737203547}
+--- !u!114 &6621904191223749045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5842799734028604676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36bf878e6e52d8447a461a4e95f42542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
