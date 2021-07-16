@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bank : MonoBehaviour{
     [SerializeField] int startingBalance = 200;
@@ -18,5 +19,14 @@ public class Bank : MonoBehaviour{
 
     public void Withdraw(int amount){
         currentBalance -= Mathf.Abs(amount);
+
+        if (currentBalance < 0){
+            ReloadScene();
+        }
+    }
+
+    static void ReloadScene(){
+        var currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
     }
 }

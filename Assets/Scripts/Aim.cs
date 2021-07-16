@@ -15,9 +15,9 @@ public class Aim : MonoBehaviour{
     }
 
     void AimAtTarget(){
+        if (target == null) return;
         var targetDistance = Vector3.Distance(this.transform.position, target.position);
-        weapon.LookAt(target);
-
+        weapon.LookAt(target);   
         Shoot(targetDistance <= shootingRange);
     }
 
