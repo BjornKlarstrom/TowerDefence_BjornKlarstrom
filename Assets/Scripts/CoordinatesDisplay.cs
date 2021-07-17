@@ -3,6 +3,7 @@ using TMPro;
 using Unity.VisualScripting;
 
 [ExecuteAlways]
+[RequireComponent(typeof(TextMeshPro))]
 public class CoordinatesDisplay : MonoBehaviour{
 
     [SerializeField] Color defaultColor = Color.white;
@@ -25,7 +26,7 @@ public class CoordinatesDisplay : MonoBehaviour{
             Display();
             DisplayInHierarchy();
         }
-        ColorDisplay();
+        SetTextColor();
         ToggleCoordinateText();
     }
 
@@ -35,7 +36,7 @@ public class CoordinatesDisplay : MonoBehaviour{
         }
     }
 
-    void ColorDisplay(){
+    void SetTextColor(){
         coordinateText.color = waypoint.IsPlaceable ? defaultColor : blockedColor;
     }
 

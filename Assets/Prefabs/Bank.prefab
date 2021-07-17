@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingBalance: 200
   currentBalance: 0
+  goldText: {fileID: 0}

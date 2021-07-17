@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPool : MonoBehaviour{
-    [SerializeField] int size = 3;
+    [SerializeField] [Range(0, 50)]int size = 3;
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] float spawnTimer = 2.0f;
+    [SerializeField] [Range(0.1f, 10.0f)] float spawnTimer = 2.0f;
 
     GameObject[] pool;
 
