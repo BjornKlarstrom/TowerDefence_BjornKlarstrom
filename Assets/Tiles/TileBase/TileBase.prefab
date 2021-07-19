@@ -213,7 +213,7 @@ Transform:
   m_GameObject: {fileID: 4994658893743796240}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 9.5, y: 9.5, z: 9.5}
+  m_LocalScale: {x: 9.8, y: 9.8, z: 9.8}
   m_Children: []
   m_Father: {fileID: 4994658895151498245}
   m_RootOrder: 0
@@ -246,7 +246,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bd1c205aa2ff2743b99c20f973e7d7b, type: 2}
+  - {fileID: 2100000, guid: 6aaf4e95f265339419dabb5a8ed0abc4, type: 2}
+  - {fileID: 2100000, guid: 3b5006902e4f7ce41b9919737635376b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -280,7 +281,7 @@ GameObject:
   - component: {fileID: 4270119606170136183}
   - component: {fileID: 6613115931275680015}
   m_Layer: 0
-  m_Name: Tile_Grass
+  m_Name: TileBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
