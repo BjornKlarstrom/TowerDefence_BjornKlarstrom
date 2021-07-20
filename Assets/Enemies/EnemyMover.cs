@@ -18,6 +18,7 @@ namespace Enemies{
         }
 
         void OnEnable(){
+            if (!path.Any()) return;
             FindPath();
             ResetToStart();
             StartCoroutine(FollowPath());

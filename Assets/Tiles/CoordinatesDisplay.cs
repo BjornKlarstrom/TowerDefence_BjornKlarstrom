@@ -1,23 +1,27 @@
+using PathFinding;
 using TMPro;
 using UnityEngine;
 
-namespace Editor{
+namespace Tiles{
     [ExecuteAlways]
     [RequireComponent(typeof(TextMeshPro))]
     public class CoordinatesDisplay : MonoBehaviour{
 
         [SerializeField] Color defaultColor = Color.white;
-        [SerializeField] Color blockedColor = Color.grey;
+        [SerializeField] Color blockedColor = Color.gray;
+        [SerializeField] Color exploredColor = Color.yellow;
+        [SerializeField] Color pathColor = new Color(1.0f, 0.5f, 0.0f);
     
         TextMeshPro coordinateText;
         Vector2Int coordinates;
         Vector3 position;
-        Waypoint waypoint;
+
+        GridManager gridManager;
 
         void Awake(){
+            gridManager = FindObjectOfType<GridManager>();
             coordinateText = GetComponent<TextMeshPro>();
             coordinateText.enabled = true;
-            this.waypoint = GetComponentInParent<Waypoint>();
             Display();
         }
 
@@ -37,7 +41,22 @@ namespace Editor{
         }
 
         void SetTextColor(){
-            coordinateText.color = waypoint.IsPlaceable ? defaultColor : blockedColor;
+            if (gridManager == null) return;
+            var node = gridManager.GetNode(coordinates);
+            if (node == null) return;
+
+            if (!node.isWalkable){
+                this.coordinateText.color = blockedColor;
+            }
+            else if (node.isPath){
+                this.coordinateText.color = pathColor;
+            }
+            else if (node.isExplored){
+                this.coordinateText.color = exploredColor;
+            }
+            else{
+                this.coordinateText.color = defaultColor;
+            }
         }
 
         void Display(){
