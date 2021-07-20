@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Tiles;
 using UnityEngine;
 
 namespace Enemies{
     [RequireComponent(typeof(Enemy))]
     public class EnemyMover : MonoBehaviour
     {
-        [SerializeField] List<Waypoint> path = new List<Waypoint>();
+        [SerializeField] List<Tile> path = new List<Tile>();
         [SerializeField] [Range(0.1f, 10.0f)] float speed = 1.0f;
         [SerializeField] float waypointYOffset = 5.0f;
 
@@ -28,7 +29,7 @@ namespace Enemies{
             path.Clear();
             var pathParent = GameObject.FindGameObjectWithTag("Path");
             foreach (Transform child in pathParent.transform){
-                var waypoint = child.GetComponent<Waypoint>();
+                var waypoint = child.GetComponent<Tile>();
                 if (waypoint != null){
                     path.Add(waypoint);
                 }

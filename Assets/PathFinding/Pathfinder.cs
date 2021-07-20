@@ -19,16 +19,15 @@ namespace PathFinding{
         public Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
         void Awake(){
             gridManager = FindObjectOfType<GridManager>();
-            if (gridManager != null){
-                this.grid = gridManager.Grid;
-            }
-            
-            this.startNode = new Node(startCoordinate,true);
-            this.endNode = new Node(endCoordinate, true);
+            if (gridManager == null) return;
+            this.grid = gridManager.Grid;
         }
 
         void Start(){
+            this.startNode = grid[startCoordinate];
+            this.endNode = grid[endCoordinate];
             BreadthFirstSearch();
+            BuildPath();
         }
 
         void ExploreNeighbors(){
@@ -42,10 +41,10 @@ namespace PathFinding{
             }
 
             foreach (var neighbor in neighbors){
-                if (!exploredNodes.ContainsKey(neighbor.coordinates) && neighbor.isWalkable){
-                    exploredNodes.Add(neighbor.coordinates, neighbor);
-                    frontier.Enqueue(neighbor);
-                }
+                if (exploredNodes.ContainsKey(neighbor.coordinates) || !neighbor.isWalkable) continue;
+                neighbor.isConnectedTo = currentSearchNode;
+                exploredNodes.Add(neighbor.coordinates, neighbor);
+                frontier.Enqueue(neighbor);
             }
         }
         void BreadthFirstSearch(){
@@ -62,6 +61,22 @@ namespace PathFinding{
                     isRunning = false;
                 }
             }
+        }
+
+        List<Node> BuildPath(){
+            var path = new List<Node>();
+            var currentNode = endNode;
+            
+            path.Add(currentNode);
+            currentNode.isPath = true;
+
+            while (currentNode.isConnectedTo != null){
+                currentNode = currentNode.isConnectedTo;
+                path.Add(currentNode);
+                currentNode.isPath = true;
+            }
+            path.Reverse();
+            return path;
         }
     }
 }
