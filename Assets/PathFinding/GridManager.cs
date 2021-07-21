@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace PathFinding{
     public class GridManager : MonoBehaviour{
+        
         [SerializeField] Vector2Int gridSize;
         
         [Tooltip("Map Grid Size - Should match Unity Editor Snap Settings")]
@@ -37,10 +38,19 @@ namespace PathFinding{
         }
 
         public Vector2Int GetCoordinatesFromPosition(Vector3 position){
-            var coordinates = new Vector2Int();
-            coordinates.x = Mathf.RoundToInt(position.x / unityGridSize);
-            coordinates.y = Mathf.RoundToInt(position.z / UnityEditor.EditorSnapSettings.move.z);
-            return new Vector2Int();
+            var coordinates = new Vector2Int{
+                x = Mathf.RoundToInt(position.x / unityGridSize),
+                y = Mathf.RoundToInt(position.z / unityGridSize)
+            };
+            return coordinates;
+        }
+
+        public Vector3 GetPositionFromCoordinates(Vector2Int coordinates){
+            var position = new Vector3{
+                x = coordinates.x * unityGridSize,
+                z = coordinates.y * unityGridSize
+            };
+            return position;
         }
     }
 }

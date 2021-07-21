@@ -9,15 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: blockedColor.b
-      value: 0.312
+      value: 0.047169805
       objectReference: {fileID: 0}
     - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: blockedColor.g
-      value: 0.312
+      value: 0.047169805
       objectReference: {fileID: 0}
     - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: blockedColor.r
-      value: 0.312
+      value: 0.047169805
       objectReference: {fileID: 0}
     - target: {fileID: 4270119606170136183, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: isPlaceable
@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3739cc3fef7ced04daf6fbafb567832f, type: 2}
     - target: {fileID: 4994658895151498244, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Name
-      value: Tile_Path
+      value: TilePath
       objectReference: {fileID: 0}
     - target: {fileID: 4994658895151498244, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_TagString

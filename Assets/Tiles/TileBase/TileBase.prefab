@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  blockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  blockedColor: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
   exploredColor: {r: 0.773, g: 0.71237254, b: 0.012125489, a: 1}
   pathColor: {r: 1, g: 0.20549601, b: 0, a: 1}
 --- !u!23 &8754848996979891728

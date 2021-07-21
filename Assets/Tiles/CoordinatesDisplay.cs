@@ -22,12 +22,12 @@ namespace Tiles{
             gridManager = FindObjectOfType<GridManager>();
             coordinateText = GetComponent<TextMeshPro>();
             coordinateText.enabled = true;
-            Display();
+            DisplayCoordinates();
         }
 
         void Update(){
             if (!Application.isPlaying){
-                Display();
+                DisplayCoordinates();
                 DisplayInHierarchy();
             }
             SetTextColor();
@@ -59,10 +59,11 @@ namespace Tiles{
             }
         }
 
-        void Display(){
+        void DisplayCoordinates(){
+            if(gridManager == null) return;
             position = this.transform.position;
-            coordinates.x = Mathf.RoundToInt(position.x / UnityEditor.EditorSnapSettings.move.x);
-            coordinates.y = Mathf.RoundToInt(position.z / UnityEditor.EditorSnapSettings.move.z);
+            coordinates.x = Mathf.RoundToInt(position.x / gridManager.UnityGridSize);
+            coordinates.y = Mathf.RoundToInt(position.z / gridManager.UnityGridSize);
             coordinateText.text = coordinates.x + "," + coordinates.y;
         }
 
