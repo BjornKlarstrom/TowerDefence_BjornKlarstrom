@@ -8,7 +8,7 @@ namespace PathFinding{
         public bool isWalkable;
         public bool isExplored;
         public bool isPath;
-        public Node isConnectedTo;
+        public Node connectedTo;
 
         public Node(Vector2Int coordinates, bool isWalkable){
             this.coordinates = coordinates;

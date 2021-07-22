@@ -26,8 +26,14 @@ namespace PathFinding{
         void Start(){
             this.startNode = grid[startCoordinate];
             this.endNode = grid[endCoordinate];
+
+            GetNewPath();
+        }
+
+        List<Node> GetNewPath(){
+            gridManager.ResetNodes();
             BreadthFirstSearch();
-            BuildPath();
+            return BuildPath();
         }
 
         void ExploreNeighbors(){
@@ -42,12 +48,14 @@ namespace PathFinding{
 
             foreach (var neighbor in neighbors){
                 if (exploredNodes.ContainsKey(neighbor.coordinates) || !neighbor.isWalkable) continue;
-                neighbor.isConnectedTo = currentSearchNode;
+                neighbor.connectedTo = currentSearchNode;
                 exploredNodes.Add(neighbor.coordinates, neighbor);
                 frontier.Enqueue(neighbor);
             }
         }
         void BreadthFirstSearch(){
+            frontier.Clear();
+            exploredNodes.Clear();
             var isRunning = true;
             
             frontier.Enqueue(startNode);
@@ -70,13 +78,23 @@ namespace PathFinding{
             path.Add(currentNode);
             currentNode.isPath = true;
 
-            while (currentNode.isConnectedTo != null){
-                currentNode = currentNode.isConnectedTo;
+            while (currentNode.connectedTo != null){
+                currentNode = currentNode.connectedTo;
                 path.Add(currentNode);
                 currentNode.isPath = true;
             }
             path.Reverse();
             return path;
+        }
+
+        public bool WillBlockPath(Vector2Int coordinates){
+            if (!grid.ContainsKey(coordinates)) return false;
+            var previousState = grid[coordinates].isWalkable; 
+            grid[coordinates].isWalkable = false;
+            var newPath = GetNewPath();
+            grid[coordinates].isWalkable = previousState;
+
+            return newPath.Count <= 1;
         }
     }
 }

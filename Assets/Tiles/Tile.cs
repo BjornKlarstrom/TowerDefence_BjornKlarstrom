@@ -9,25 +9,27 @@ namespace Tiles{
         public bool IsPlaceable => isPlaceable;
 
         GridManager gridManager;
-        Vector2Int coordinates = new Vector2Int();
+        Pathfinder pathfinder;
+        Vector2Int coordinates;
 
         void Awake(){
             this.gridManager = FindObjectOfType<GridManager>();
+            this.pathfinder = FindObjectOfType<Pathfinder>();
         }
 
         void Start(){
-            if (this.gridManager != null){
-                this.coordinates = gridManager.GetCoordinatesFromPosition(this.transform.position);
-                if (!isPlaceable){
-                    gridManager.BlockNode(coordinates);
-                }
+            if (this.gridManager == null) return;
+            this.coordinates = gridManager.GetCoordinatesFromPosition(this.transform.position);
+            if (!isPlaceable){
+                gridManager.BlockNode(coordinates);
             }
         }
 
         void OnMouseDown(){
-            if (!isPlaceable) return;
+            if (!gridManager.GetNode(coordinates).isWalkable || pathfinder.WillBlockPath(coordinates)) return;
             var isPlaced = Tower.CreateTower(towerPrefab, transform.position);
-            isPlaceable = !isPlaced;
+            isPlaceable = !isPlaced; 
+            gridManager.BlockNode(coordinates);
         }
     }
 }

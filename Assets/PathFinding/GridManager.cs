@@ -37,6 +37,14 @@ namespace PathFinding{
             }
         }
 
+        public void ResetNodes(){
+            foreach (var node in grid){
+                node.Value.connectedTo = null;
+                node.Value.isExplored = false;
+                node.Value.isPath = false;
+            }
+        }
+
         public Vector2Int GetCoordinatesFromPosition(Vector3 position){
             var coordinates = new Vector2Int{
                 x = Mathf.RoundToInt(position.x / unityGridSize),
