@@ -1,5 +1,6 @@
 using System;
 using PathFinding;
+using Towers;
 using UnityEngine;
 
 namespace Tiles{
@@ -26,10 +27,13 @@ namespace Tiles{
         }
 
         void OnMouseDown(){
-            if (!gridManager.GetNode(coordinates).isWalkable || pathfinder.WillBlockPath(coordinates)) return;
-            var isPlaced = Tower.CreateTower(towerPrefab, transform.position);
-            isPlaceable = !isPlaced; 
-            gridManager.BlockNode(coordinates);
+            if (gridManager.GetNode(coordinates).isWalkable && !pathfinder.WillBlockPath(coordinates)){
+                var isSuccessful = towerPrefab.CreateTower(towerPrefab, this.transform.position);
+                if (isSuccessful){
+                    gridManager.BlockNode(coordinates);
+                    pathfinder.NotifyReceivers();
+                }
+            }
         }
     }
 }

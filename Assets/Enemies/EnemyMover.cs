@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PathFinding;
 using Tiles;
 using UnityEngine;
 
@@ -8,41 +9,37 @@ namespace Enemies{
     [RequireComponent(typeof(Enemy))]
     public class EnemyMover : MonoBehaviour
     {
-        [SerializeField] List<Tile> path = new List<Tile>();
         [SerializeField] [Range(0.1f, 10.0f)] float speed = 1.0f;
-        [SerializeField] float waypointYOffset = 5.0f;
+        [SerializeField] float YOffset = 5.0f;
+        
+        List<Node> path = new List<Node>();
+        GridManager gridManager;
+        Pathfinder pathfinder;
 
         Enemy enemy;
 
-        void Start(){
+        void Awake(){
             this.enemy = GetComponent<Enemy>();
+            this.gridManager = FindObjectOfType<GridManager>();
+            this.pathfinder = FindObjectOfType<Pathfinder>();
         }
 
         void OnEnable(){
-            if (!path.Any()) return;
-            FindPath();
-            ResetToStart();
+            RecalculatePath();
+            ReturnToStart();
             StartCoroutine(FollowPath());
         }
 
-        void FindPath(){
+        void RecalculatePath(){
             path.Clear();
-            var pathParent = GameObject.FindGameObjectWithTag("Path");
-            foreach (Transform child in pathParent.transform){
-                var waypoint = child.GetComponent<Tile>();
-                if (waypoint != null){
-                    path.Add(waypoint);
-                }
-            }
+            path = pathfinder.GetNewPath();
         }
         void DisableEnemy(){
             gameObject.SetActive(false);
         }
 
-        void ResetToStart(){
-            var firstWaypoint = path.First().transform.position;
-            var startPosition = new Vector3(firstWaypoint.x, waypointYOffset, firstWaypoint.z);
-            this.transform.position = startPosition; 
+        void ReturnToStart(){
+            this.transform.position = gridManager.GetPositionFromCoordinates(pathfinder.StartCoordinate);
         }
 
         void FinishPath(){
@@ -50,20 +47,21 @@ namespace Enemies{
             DisableEnemy();
         }
         IEnumerator FollowPath(){
-            foreach (var waypoint in path){
+            foreach (var node in path){
                 var startPosition = this.transform.position;
-                var endPosition = waypoint.transform.position;
-                endPosition = new Vector3(endPosition.x, waypointYOffset, endPosition.z);
+                var nextPosition = gridManager.GetPositionFromCoordinates(node.coordinates);
+                nextPosition = new Vector3(nextPosition.x, YOffset, nextPosition.z);
                 var movedPercent = 0.0f;
             
-                this.transform.LookAt(endPosition);
+                this.transform.LookAt(nextPosition);
 
                 while (movedPercent < 1.0f){
                     movedPercent += Time.deltaTime * speed;
-                    this.transform.position = Vector3.Lerp(startPosition, endPosition, movedPercent);
+                    this.transform.position = Vector3.Lerp(startPosition, nextPosition, movedPercent);
                     yield return new WaitForEndOfFrame();
                 }
             }
+
             FinishPath();
         }
     }

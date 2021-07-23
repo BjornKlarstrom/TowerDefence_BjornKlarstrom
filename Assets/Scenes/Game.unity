@@ -2160,6 +2160,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &880722099 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 536596727291485849, guid: 817cde407da425e40a925d36f5ee33e5, type: 3}
+  m_PrefabInstance: {fileID: 1225310509}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &932402344
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2392,7 +2403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a3a8dff5956454396abc137ed54251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 8, y: 8}
+  gridSize: {x: 8, y: 7}
   unityGridSize: 10
 --- !u!4 &1028096769
 Transform:
@@ -4538,22 +4549,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8360192960743303800, guid: 3432afb7e3421d84c9183accf1fcc565, type: 3}
-      propertyPath: endCoordinate.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360192960743303800, guid: 3432afb7e3421d84c9183accf1fcc565, type: 3}
-      propertyPath: endCoordinate.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360192960743303800, guid: 3432afb7e3421d84c9183accf1fcc565, type: 3}
-      propertyPath: startCoordinate.x
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360192960743303800, guid: 3432afb7e3421d84c9183accf1fcc565, type: 3}
-      propertyPath: startCoordinate.y
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3432afb7e3421d84c9183accf1fcc565, type: 3}
 --- !u!1001 &3568713033429150345
@@ -4614,6 +4609,6 @@ PrefabInstance:
     - target: {fileID: 3568713034085603621, guid: 56a1e0897ff149045bff2f68d30e6025, type: 3}
       propertyPath: goldText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 880722099}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a1e0897ff149045bff2f68d30e6025, type: 3}
