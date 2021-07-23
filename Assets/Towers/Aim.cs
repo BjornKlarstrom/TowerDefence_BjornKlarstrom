@@ -39,8 +39,6 @@ public class Aim : MonoBehaviour{
     }
 
     void Shoot(bool isActive){
-        Debug.Log("In Range (Shoot)");
-        Debug.Log(isActive);
         var emission = bulletParticle.emission;
         emission.enabled = isActive;
     }

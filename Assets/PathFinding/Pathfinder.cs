@@ -5,11 +5,11 @@ using UnityEngine;
 namespace PathFinding{
     public class Pathfinder : MonoBehaviour{
         
-        [SerializeField] Vector2Int startCoordinate;
-        public Vector2Int StartCoordinate => startCoordinate;
+        [SerializeField] Vector2Int startCoordinates;
+        public Vector2Int StartCoordinates => startCoordinates;
 
-        [SerializeField] Vector2Int endCoordinate;
-        public Vector2Int EndCoordinate => endCoordinate;
+        [SerializeField] Vector2Int endCoordinates;
+        public Vector2Int EndCoordinates => endCoordinates;
 
         Node startNode;
         Node endNode;
@@ -25,8 +25,8 @@ namespace PathFinding{
             gridManager = FindObjectOfType<GridManager>();
             if (gridManager == null) return;
             this.grid = gridManager.Grid;
-            this.startNode = grid[startCoordinate];
-            this.endNode = grid[endCoordinate];
+            this.startNode = grid[startCoordinates];
+            this.endNode = grid[endCoordinates];
         }
 
         void Start(){
@@ -34,7 +34,7 @@ namespace PathFinding{
         }
 
         public List<Node> GetNewPath(){
-            return GetNewPath(startCoordinate);
+            return GetNewPath(startCoordinates);
         }
         
         public List<Node> GetNewPath(Vector2Int coordinates){
@@ -74,7 +74,7 @@ namespace PathFinding{
                 this.currentSearchNode = frontier.Dequeue();
                 this.currentSearchNode.isExplored = true;
                 ExploreNeighbors();
-                if (currentSearchNode.coordinates == endCoordinate){
+                if (currentSearchNode.coordinates == endCoordinates){
                     isRunning = false;
                 }
             }
@@ -113,7 +113,7 @@ namespace PathFinding{
         }
 
         public void NotifyReceivers(){
-            BroadcastMessage("RecalculatePath",SendMessageOptions.DontRequireReceiver);
+            BroadcastMessage("RecalculatePath",false , SendMessageOptions.DontRequireReceiver);
         }
     }
 }

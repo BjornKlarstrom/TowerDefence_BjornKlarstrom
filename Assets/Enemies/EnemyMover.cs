@@ -25,21 +25,26 @@ namespace Enemies{
         }
 
         void OnEnable(){
-            RecalculatePath();
             ReturnToStart();
-            StartCoroutine(FollowPath());
+            RecalculatePath(true);
         }
 
-        void RecalculatePath(){
+        void RecalculatePath(bool resetPath){
+            var coordinates = resetPath ? 
+                pathfinder.StartCoordinates : 
+                gridManager.GetCoordinatesFromPosition(this.transform.position);
+            
+            StopAllCoroutines();
             path.Clear();
-            path = pathfinder.GetNewPath();
+            path = pathfinder.GetNewPath(coordinates);
+            StartCoroutine(FollowPath());
         }
         void DisableEnemy(){
             gameObject.SetActive(false);
         }
 
         void ReturnToStart(){
-            this.transform.position = gridManager.GetPositionFromCoordinates(pathfinder.StartCoordinate);
+            this.transform.position = gridManager.GetPositionFromCoordinates(pathfinder.StartCoordinates);
         }
 
         void FinishPath(){
@@ -47,9 +52,9 @@ namespace Enemies{
             DisableEnemy();
         }
         IEnumerator FollowPath(){
-            foreach (var node in path){
+            for (var i = 1; i < path.Count; i++){
                 var startPosition = this.transform.position;
-                var nextPosition = gridManager.GetPositionFromCoordinates(node.coordinates);
+                var nextPosition = gridManager.GetPositionFromCoordinates(path[i].coordinates);
                 nextPosition = new Vector3(nextPosition.x, YOffset, nextPosition.z);
                 var movedPercent = 0.0f;
             
