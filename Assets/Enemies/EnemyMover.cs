@@ -26,7 +26,7 @@ namespace Enemies{
 
         void OnEnable(){
             ReturnToStart();
-            RecalculatePath(true);
+            //RecalculatePath(true);
         }
 
         void RecalculatePath(bool resetPath){

@@ -25,12 +25,12 @@ namespace PathFinding{
             gridManager = FindObjectOfType<GridManager>();
             if (gridManager == null) return;
             this.grid = gridManager.Grid;
-            this.startNode = grid[startCoordinates];
-            this.endNode = grid[endCoordinates];
+            //this.startNode = grid[startCoordinates];
+            //this.endNode = grid[endCoordinates];
         }
 
         void Start(){
-            GetNewPath();
+            //GetNewPath();
         }
 
         public List<Node> GetNewPath(){
