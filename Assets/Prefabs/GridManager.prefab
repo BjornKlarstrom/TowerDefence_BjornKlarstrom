@@ -28,7 +28,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 319548185141554044}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -44,8 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a3a8dff5956454396abc137ed54251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 8, y: 7}
+  gridSize: {x: 24, y: 24}
   unityGridSize: 10
+  tileParent: {fileID: 319548185141554044}
+  floorPrefab: {fileID: 4994658895151498244, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+  wallPrefab: {fileID: 2971899725069100327, guid: d4b47a1460dcf1c4bae52ffea8456062, type: 3}
 --- !u!114 &1806441140491501749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,9 +62,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5689ed6aced25004d99880a7c019dcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 24, y: 24}
-  coordinates: {x: 0, y: 0}
   seed: 
   useRandomSeed: 1
-  fillFactor: 55
-  smoothingIterations: 2
+  wallPercent: 45
+  smoothingIterations: 1
+--- !u!1 &6183700855536919419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319548185141554044}
+  m_Layer: 0
+  m_Name: Tiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &319548185141554044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6183700855536919419}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1806441140491501750}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

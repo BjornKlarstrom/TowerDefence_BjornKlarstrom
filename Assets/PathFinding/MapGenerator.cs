@@ -41,18 +41,22 @@ namespace PathFinding{
                 for (var y = 0; y < MapSize.y; y++){
                     var coordinates = new Vector2Int(x,y);
                     if (IsEdgeNode(coordinates)){
-                        this.Map.Add(coordinates, new Node(coordinates, false));
-                        this.Map[coordinates].isWall = true;
+                        this.Map.Add(coordinates, new Node(coordinates, false, true));
                     }
                     else{
-                        this.Map.Add(coordinates, new Node(coordinates, true));
+                        this.Map.Add(coordinates, new Node(coordinates, true, false));
                         this.Map[coordinates].isWall = randomHashCode.Next(0, 100) < wallPercent;
                     }
                 }
             }
         }
+        
+        bool IsEdgeNode(Vector2Int nodeCoordinates){
+            return nodeCoordinates.x == 0 || nodeCoordinates.x == MapSize.x - 1 || 
+                   nodeCoordinates.y == 0 || nodeCoordinates.y == MapSize.y - 1;
+        }
 
-        void OnDrawGizmos(){
+        /*void OnDrawGizmos(){
             if (Map == null) return;
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
@@ -63,13 +67,8 @@ namespace PathFinding{
                     Gizmos.DrawCube(position, Vector3.one);
                 }
             }
-        }
+        }*/
 
-        bool IsEdgeNode(Vector2Int nodeCoordinates){
-            return nodeCoordinates.x == 0 || nodeCoordinates.x == MapSize.x - 1 || 
-                   nodeCoordinates.y == 0 || nodeCoordinates.y == MapSize.y - 1;
-        }
-    
         void SmoothMap(){
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
@@ -91,10 +90,9 @@ namespace PathFinding{
                 for (var y = nodeCoordinates.y - 1; y <= nodeCoordinates.y + 1; y++){
                     var coordinates = new Vector2Int(x,y);
                     if (IsInsideMap(coordinates)){
-                        if (x != nodeCoordinates.x || y != nodeCoordinates.y){
-                            if (this.Map[coordinates].isWall){
-                                wallNeighbourCount++;
-                            }
+                        if (x == nodeCoordinates.x && y == nodeCoordinates.y) continue;
+                        if (this.Map[coordinates].isWall){
+                            wallNeighbourCount++;
                         }
                     }
                     else{
@@ -102,7 +100,6 @@ namespace PathFinding{
                     }
                 }
             }
-
             return wallNeighbourCount;
         }
 

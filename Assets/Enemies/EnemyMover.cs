@@ -54,7 +54,7 @@ namespace Enemies{
         IEnumerator FollowPath(){
             for (var i = 1; i < path.Count; i++){
                 var startPosition = this.transform.position;
-                var nextPosition = gridManager.GetPositionFromCoordinates(path[i].coordinates);
+                var nextPosition = gridManager.GetPositionFromCoordinates(path[i].position);
                 nextPosition = new Vector3(nextPosition.x, YOffset, nextPosition.z);
                 var movedPercent = 0.0f;
             

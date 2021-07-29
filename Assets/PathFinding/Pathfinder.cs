@@ -47,16 +47,16 @@ namespace PathFinding{
             var neighbors = new List<Node>();
 
             foreach (var direction in directions){
-                var neighborCoordinates = currentSearchNode.coordinates + direction;
+                var neighborCoordinates = currentSearchNode.position + direction;
                 if (grid.ContainsKey(neighborCoordinates)){
                     neighbors.Add(grid[neighborCoordinates]);
                 }
             }
 
             foreach (var neighbor in neighbors){
-                if (exploredNodes.ContainsKey(neighbor.coordinates) || !neighbor.isWalkable) continue;
+                if (exploredNodes.ContainsKey(neighbor.position) || !neighbor.isWalkable) continue;
                 neighbor.connectedTo = currentSearchNode;
-                exploredNodes.Add(neighbor.coordinates, neighbor);
+                exploredNodes.Add(neighbor.position, neighbor);
                 frontier.Enqueue(neighbor);
             }
         }
@@ -74,7 +74,7 @@ namespace PathFinding{
                 this.currentSearchNode = frontier.Dequeue();
                 this.currentSearchNode.isExplored = true;
                 ExploreNeighbors();
-                if (currentSearchNode.coordinates == endCoordinates){
+                if (currentSearchNode.position == endCoordinates){
                     isRunning = false;
                 }
             }

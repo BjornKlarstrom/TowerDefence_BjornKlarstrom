@@ -13,6 +13,10 @@ namespace PathFinding{
 
         public Dictionary<Vector2Int, Node> Grid{ get; private set; } = new Dictionary<Vector2Int, Node>();
 
+        [SerializeField] Transform tileParent;
+        [SerializeField] GameObject floorPrefab;
+        [SerializeField] GameObject wallPrefab;
+
         MapGenerator mapGenerator;
         
         void Awake(){
@@ -21,13 +25,23 @@ namespace PathFinding{
             this.Grid = mapGenerator.GenerateMap();
         }
 
-        void CreateGrid(){
+        void Start(){
+            PlaceTilesOnGrid();
+        }
+
+        void CreateMap(){
             for (var x = 0; x < gridSize.x; x++){
                 for (var y = 0; y < gridSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
-                    Grid.Add(coordinates, new Node(coordinates, true));
+                    Grid.Add(coordinates, new Node(coordinates, true, false));
                 }
             }
+        }
+
+        public void CreateRandomizedMap(){
+            this.Grid.Clear();
+            this.Grid = mapGenerator.GenerateMap();
+            PlaceTilesOnGrid();
         }
         
         public Node GetNode(Vector2Int coordinates){
@@ -62,6 +76,19 @@ namespace PathFinding{
                 z = coordinates.y * unityGridSize
             };
             return position;
+        }
+        
+        void PlaceTilesOnGrid(){
+            if (Grid == null) return;
+
+            foreach (Transform tile in tileParent.transform){
+                Destroy(tile.gameObject);
+            }
+
+            foreach (var node in Grid){
+                Instantiate(node.Value.isWall ? wallPrefab : floorPrefab,
+                    GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+            }
         }
     }
 }
