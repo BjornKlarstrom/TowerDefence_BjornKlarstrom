@@ -212,7 +212,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &878782257
 GameObject:
@@ -480,7 +480,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.3584906, g: 0.3026878, b: 0.3026878, a: 0}
+  m_BackGroundColor: {r: 0.21960784, g: 0.18039216, b: 0.16078432, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -665,7 +665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 164701713096002455, guid: 3432afb7e3421d84c9183accf1fcc565, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 164701713096002455, guid: 3432afb7e3421d84c9183accf1fcc565, type: 3}
       propertyPath: m_LocalPosition.x
@@ -729,6 +729,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1806441140491501749, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
+      propertyPath: rockPercent
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806441140491501749, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
       propertyPath: wallPercent
       value: 25
       objectReference: {fileID: 0}
@@ -781,6 +785,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1806441140491501751, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
+      propertyPath: enemyBase
+      value: 
+      objectReference: {fileID: 2971899725069100327, guid: 9a32df8a9e75ef842a12715c29e98042, type: 3}
+    - target: {fileID: 1806441140491501751, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
       propertyPath: gridSize.x
       value: 16
       objectReference: {fileID: 0}
@@ -788,6 +796,26 @@ PrefabInstance:
       propertyPath: gridSize.y
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1806441140491501751, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
+      propertyPath: rockPrefab
+      value: 
+      objectReference: {fileID: 2971899725069100327, guid: 9b03c8ca933fc8d4bbb713657a058433, type: 3}
+    - target: {fileID: 1806441140491501751, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
+      propertyPath: wallPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806441140491501751, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
+      propertyPath: wallPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 2971899725069100327, guid: d4b47a1460dcf1c4bae52ffea8456062, type: 3}
+    - target: {fileID: 1806441140491501751, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
+      propertyPath: wallPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 2971899725069100327, guid: 9c39d57521914ff409e503dbfa8ec873, type: 3}
+    - target: {fileID: 1806441140491501751, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
+      propertyPath: wallPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 2971899725069100327, guid: ee093719890a7864c82503ba2e1d3470, type: 3}
     - target: {fileID: 1806441140491501896, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
       propertyPath: m_Name
       value: GridManager

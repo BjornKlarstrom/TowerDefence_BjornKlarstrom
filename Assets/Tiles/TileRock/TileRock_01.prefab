@@ -24,20 +24,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3739cc3fef7ced04daf6fbafb567832f, type: 2}
+      objectReference: {fileID: 2100000, guid: 6aaf4e95f265339419dabb5a8ed0abc4, type: 2}
     - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6aaf4e95f265339419dabb5a8ed0abc4, type: 2}
+    - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 949166a7fb391b7429959ce7a373a8dc, type: 2}
     - target: {fileID: 4994658893743796255, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1585134276705639935, guid: 40e1e6ae1ab24e84b80afdff8f766387, type: 3}
+      objectReference: {fileID: -6437815610576227566, guid: b77c7a236165baf4e89ef1e90afaf633, type: 3}
     - target: {fileID: 4994658895151498244, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Name
-      value: TileWall
+      value: TileRock_01
       objectReference: {fileID: 0}
     - target: {fileID: 4994658895151498244, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_TagString

@@ -9,12 +9,29 @@ namespace PathFinding{
         public bool isExplored;
         public bool isPath;
         public bool isWall;
+        public bool isRock;
+        public bool isEnemyBase;
         public Node connectedTo;
+        public FaceDirection currentDirection;
 
-        public Node(Vector2Int position, bool isWalkable, bool isWall){
+        public enum FaceDirection{
+            Left,
+            Right,
+            Up,
+            Down
+        }
+        
+        public Node(Vector2Int position, bool isWalkable, bool isWall, bool isRock){
             this.position = position;
             this.isWalkable = isWalkable;
             this.isWall = isWall;
+            this.isRock = isRock;
+        }
+
+        public void ResetNode(){
+            this.isRock = false;
+            this.isWall = false;
+            this.isWalkable = true;
         }
     }
 }

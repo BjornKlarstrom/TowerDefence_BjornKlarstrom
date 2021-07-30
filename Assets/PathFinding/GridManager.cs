@@ -15,7 +15,9 @@ namespace PathFinding{
 
         [SerializeField] Transform tileParent;
         [SerializeField] GameObject floorPrefab;
-        [SerializeField] GameObject wallPrefab;
+        [SerializeField] GameObject rockPrefab;
+        [SerializeField] GameObject enemyBase;
+        [SerializeField] GameObject[] wallPrefabs;
 
         MapGenerator mapGenerator;
         
@@ -33,7 +35,7 @@ namespace PathFinding{
             for (var x = 0; x < gridSize.x; x++){
                 for (var y = 0; y < gridSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
-                    Grid.Add(coordinates, new Node(coordinates, true, false));
+                    Grid.Add(coordinates, new Node(coordinates, true, false, false));
                 }
             }
         }
@@ -80,14 +82,29 @@ namespace PathFinding{
         
         void PlaceTilesOnGrid(){
             if (Grid == null) return;
+            var random = new System.Random();
 
             foreach (Transform tile in tileParent.transform){
                 Destroy(tile.gameObject);
             }
 
             foreach (var node in Grid){
-                Instantiate(node.Value.isWall ? wallPrefab : floorPrefab,
-                    GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                var randomWallTile = wallPrefabs[random.Next(0, wallPrefabs.Length)];
+                if (node.Value.isWall){
+                    Instantiate(randomWallTile, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                }
+                else if (node.Value.isRock){
+                    Instantiate(rockPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                }
+                else if (node.Value.isEnemyBase){
+                    var enemyBaseInstance = Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                    if (node.Value.currentDirection == Node.FaceDirection.Right){
+                        enemyBaseInstance.transform.rotation = Quaternion.Euler(0,90,0);
+                    }
+                }
+                else{
+                    Instantiate(floorPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                }
             }
         }
     }

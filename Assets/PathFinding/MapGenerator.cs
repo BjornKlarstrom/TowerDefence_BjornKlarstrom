@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace PathFinding{
     public class MapGenerator : MonoBehaviour{
-
         public Vector2Int MapSize{ get; set; }
 
         [SerializeField] string seed;
         [SerializeField] bool useRandomSeed;
 
         [Range(0, 100)] [SerializeField] int wallPercent;
-        
+        [Range(0, 100)] [SerializeField] int rockPercent;
+
         //int[,] map;
         Dictionary<Vector2Int, Node> Map{ get; set; } = new Dictionary<Vector2Int, Node>();
 
@@ -26,11 +26,13 @@ namespace PathFinding{
             for (var i = 0; i < smoothingIterations; i++){
                 SmoothMap();
             }
+
+            PlaceRocks();
+            PlaceEnemyBase();
             return Map;
         }
 
         void RandomFillMap(){
-            
             if (useRandomSeed){
                 this.seed = Time.time.ToString(CultureInfo.InvariantCulture);
             }
@@ -39,20 +41,20 @@ namespace PathFinding{
 
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
-                    var coordinates = new Vector2Int(x,y);
+                    var coordinates = new Vector2Int(x, y);
                     if (IsEdgeNode(coordinates)){
-                        this.Map.Add(coordinates, new Node(coordinates, false, true));
+                        this.Map.Add(coordinates, new Node(coordinates, false, true, false));
                     }
                     else{
-                        this.Map.Add(coordinates, new Node(coordinates, true, false));
+                        this.Map.Add(coordinates, new Node(coordinates, true, false, false));
                         this.Map[coordinates].isWall = randomHashCode.Next(0, 100) < wallPercent;
                     }
                 }
             }
         }
-        
+
         bool IsEdgeNode(Vector2Int nodeCoordinates){
-            return nodeCoordinates.x == 0 || nodeCoordinates.x == MapSize.x - 1 || 
+            return nodeCoordinates.x == 0 || nodeCoordinates.x == MapSize.x - 1 ||
                    nodeCoordinates.y == 0 || nodeCoordinates.y == MapSize.y - 1;
         }
 
@@ -72,23 +74,56 @@ namespace PathFinding{
         void SmoothMap(){
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
-                    var coordinates = new Vector2Int(x,y);
+                    var coordinates = new Vector2Int(x, y);
                     var blockedNeighbours = GetWallNeighbours(coordinates);
                     if (blockedNeighbours > 4){
+                        //this.Map[coordinates].ResetNode();
                         this.Map[coordinates].isWall = true;
                     }
-                    else if(blockedNeighbours < 4){
+                    else if (blockedNeighbours < 4){
+                        //this.Map[coordinates].ResetNode();
                         this.Map[coordinates].isWall = false;
                     }
                 }
             }
         }
 
+        void PlaceRocks(){
+            var random = new System.Random();
+            for (var x = 0; x < MapSize.x; x++){
+                for (var y = 0; y < MapSize.y; y++){
+                    var coordinates = new Vector2Int(x, y);
+                    this.Map[coordinates].isRock = random.Next(0, 100) < rockPercent;
+                }
+            }
+        }
+
+        void PlaceEnemyBase(){
+            Vector2Int enemyBaseCoordinates;
+            var random = new System.Random();
+            var enemyBaseSide = random.Next(0, 4);
+            Debug.Log(enemyBaseSide);
+
+            if (enemyBaseSide == 0){
+                for (var x = 0; x < MapSize.x; x++){
+                    for (var y = 0; y < MapSize.y; y++){
+                        var coordinates = new Vector2Int(x, y);
+                        if (this.Map[coordinates].isWall) continue;
+                        Debug.Log("Hey!!!" + coordinates);
+                        this.Map[coordinates].ResetNode();
+                        this.Map[coordinates].isEnemyBase = true;
+                        this.Map[coordinates].currentDirection = Node.FaceDirection.Right;
+                        return;
+                    }
+                }
+            }
+        }
+        
         int GetWallNeighbours(Vector2Int nodeCoordinates){
             var wallNeighbourCount = 0;
             for (var x = nodeCoordinates.x - 1; x <= nodeCoordinates.x + 1; x++){
                 for (var y = nodeCoordinates.y - 1; y <= nodeCoordinates.y + 1; y++){
-                    var coordinates = new Vector2Int(x,y);
+                    var coordinates = new Vector2Int(x, y);
                     if (IsInsideMap(coordinates)){
                         if (x == nodeCoordinates.x && y == nodeCoordinates.y) continue;
                         if (this.Map[coordinates].isWall){
@@ -100,11 +135,12 @@ namespace PathFinding{
                     }
                 }
             }
+
             return wallNeighbourCount;
         }
 
         bool IsInsideMap(Vector2Int nodeCoordinates){
-            return nodeCoordinates.x >= 0 && nodeCoordinates.x < this.MapSize.x && 
+            return nodeCoordinates.x >= 0 && nodeCoordinates.x < this.MapSize.x &&
                    nodeCoordinates.y >= 0 && nodeCoordinates.y < this.MapSize.y;
         }
     }
