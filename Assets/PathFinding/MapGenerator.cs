@@ -26,7 +26,6 @@ namespace PathFinding{
             for (var i = 0; i < smoothingIterations; i++){
                 SmoothMap();
             }
-
             PlaceRocks();
             PlaceEnemyBase();
             return Map;
@@ -104,17 +103,60 @@ namespace PathFinding{
             var enemyBaseSide = random.Next(0, 4);
             Debug.Log(enemyBaseSide);
 
-            if (enemyBaseSide == 0){
-                for (var x = 0; x < MapSize.x; x++){
-                    for (var y = 0; y < MapSize.y; y++){
-                        var coordinates = new Vector2Int(x, y);
-                        if (this.Map[coordinates].isWall) continue;
-                        Debug.Log("Hey!!!" + coordinates);
-                        this.Map[coordinates].ResetNode();
-                        this.Map[coordinates].isEnemyBase = true;
-                        this.Map[coordinates].currentDirection = Node.FaceDirection.Right;
-                        return;
+            switch (enemyBaseSide){
+                case 0:{
+                    for (var x = 0; x < MapSize.x; x++){
+                        for (var y = 0; y < MapSize.y; y++){
+                            var coordinates = new Vector2Int(x, y);
+                            if (this.Map[coordinates].isWall) continue;
+                            this.Map[coordinates].ResetNode();
+                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].currentDirection = Node.FaceDirections.Right;
+                            return;
+                        }
                     }
+                    break;
+                }
+                case 1:{
+                    for (var y = MapSize.y - 1; y >= 0; y--){
+                        for (var x = 0; x < MapSize.x; x++){
+                            var coordinates = new Vector2Int(x, y);
+                            if (this.Map[coordinates].isWall) continue;
+                            this.Map[coordinates].ResetNode();
+                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].currentDirection = Node.FaceDirections.Down;
+                            return;
+                        }
+                    }
+                    break;
+                }
+                
+                case 2:{
+                    for (var x = MapSize.x - 1; x > 0; x--){
+                        for (var y = 0; y < MapSize.y; y++){
+                            var coordinates = new Vector2Int(x, y);
+                            if (this.Map[coordinates].isWall) continue;
+                            this.Map[coordinates].ResetNode();
+                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].currentDirection = Node.FaceDirections.Left;
+                            return;
+                        }
+                    }
+                    break;
+                }
+                
+                case 3:{
+                    for (var y = 0; y < MapSize.x; y++){
+                        for (var x = 0; x < MapSize.y; x++){
+                            var coordinates = new Vector2Int(x, y);
+                            if (this.Map[coordinates].isWall) continue;
+                            this.Map[coordinates].ResetNode();
+                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].currentDirection = Node.FaceDirections.Up;
+                            return;
+                        }
+                    }
+                    break;
                 }
             }
         }

@@ -12,9 +12,9 @@ namespace PathFinding{
         public bool isRock;
         public bool isEnemyBase;
         public Node connectedTo;
-        public FaceDirection currentDirection;
+        public FaceDirections currentDirection;
 
-        public enum FaceDirection{
+        public enum FaceDirections{
             Left,
             Right,
             Up,

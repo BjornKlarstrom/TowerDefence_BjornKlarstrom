@@ -97,9 +97,28 @@ namespace PathFinding{
                     Instantiate(rockPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                 }
                 else if (node.Value.isEnemyBase){
-                    var enemyBaseInstance = Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
-                    if (node.Value.currentDirection == Node.FaceDirection.Right){
-                        enemyBaseInstance.transform.rotation = Quaternion.Euler(0,90,0);
+                    var enemyBaseInstance = 
+                        Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                    
+                    switch (node.Value.currentDirection){
+                        case Node.FaceDirections.Right:
+                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,90,0);
+                            break;
+                        case Node.FaceDirections.Down:
+                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,180,0);
+                            break;
+                        case Node.FaceDirections.Left:
+                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,-90,0);
+                            break;
+                        case Node.FaceDirections.Up:
+                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,0,0);
+                            break;
+                        default:{
+                            if (node.Value.currentDirection == Node.FaceDirections.Left){
+                                enemyBaseInstance.transform.rotation = Quaternion.Euler(0,-180,0);
+                            }
+                            break;
+                        }
                     }
                 }
                 else{
