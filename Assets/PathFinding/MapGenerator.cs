@@ -81,7 +81,7 @@ namespace PathFinding{
                         //this.Map[coordinates].ResetNode();
                         this.Map[coordinates].type = Node.Type.Wall;
                     }
-                    else if (blockedNeighbours < 4){
+                    else if (blockedNeighbours < 2){
                         //this.Map[coordinates].ResetNode();
                         this.Map[coordinates].type = Node.Type.Floor;
                     }
@@ -102,70 +102,84 @@ namespace PathFinding{
         }
 
         void PlaceEnemyBase(){
-            var random = new System.Random();
-            var enemyBaseSide = random.Next(0, 4);
-            Debug.Log(enemyBaseSide);
 
-            switch (enemyBaseSide){
-                case 0:{
+            var values = Enum.GetValues(typeof(EnemyBaseSide));
+            var random = new System.Random();
+            var randomSide = (EnemyBaseSide)values.GetValue(random.Next(values.Length));
+
+            switch (randomSide){
+                case EnemyBaseSide.Left:{
                     for (var x = 0; x < MapSize.x; x++){
                         for (var y = 0; y < MapSize.y; y++){
                             var coordinates = new Vector2Int(x, y);
                             if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].type = Node.Type.EnemyBase;
                             this.Map[coordinates].faceDirection = Node.FaceDirections.Right;
                             ClearEntranceForPath(coordinates);
+                            MakeWayForEnemyBaseSides(coordinates);
                             return;
                         }
                     }
                     break;
                 }
-                case 1:{
+                case EnemyBaseSide.Top:{
                     for (var y = MapSize.y - 1; y >= 0; y--){
                         for (var x = 0; x < MapSize.x; x++){
                             var coordinates = new Vector2Int(x, y);
                             if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].type = Node.Type.EnemyBase;
                             this.Map[coordinates].faceDirection = Node.FaceDirections.Down;
                             ClearEntranceForPath(coordinates);
+                            MakeWayForEnemyBaseSides(coordinates);
                             return;
                         }
                     }
                     break;
                 }
                 
-                case 2:{
+                case EnemyBaseSide.Right:{
                     for (var x = MapSize.x - 1; x > 0; x--){
                         for (var y = 0; y < MapSize.y; y++){
                             var coordinates = new Vector2Int(x, y);
                             if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].type = Node.Type.EnemyBase;
                             this.Map[coordinates].faceDirection = Node.FaceDirections.Left;
                             ClearEntranceForPath(coordinates);
+                            MakeWayForEnemyBaseSides(coordinates);
                             return;
                         }
                     }
                     break;
                 }
                 
-                case 3:{
+                case EnemyBaseSide.Bottom:{
                     for (var y = 0; y < MapSize.x; y++){
                         for (var x = 0; x < MapSize.y; x++){
                             var coordinates = new Vector2Int(x, y);
                             if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].isEnemyBase = true;
+                            this.Map[coordinates].type = Node.Type.EnemyBase;
                             this.Map[coordinates].faceDirection = Node.FaceDirections.Up;
                             ClearEntranceForPath(coordinates);
+                            MakeWayForEnemyBaseSides(coordinates);
                             return;
                         }
                     }
                     break;
                 }
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+        }
+
+        enum EnemyBaseSide{
+            Left = 0,
+            Top = 1,
+            Right = 2,
+            Bottom = 3
         }
 
         void ClearEntranceForPath(Vector2Int coordinates){
@@ -194,6 +208,47 @@ namespace PathFinding{
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+        
+        void MakeWayForEnemyBaseSides(Vector2Int coordinates){
+            
+            var sidesCoordinates = new List<Vector2Int>();
+            
+            switch (this.Map[coordinates].faceDirection){
+                
+                case Node.FaceDirections.Right:{
+                    SetVerticalBase(coordinates, sidesCoordinates);
+                    break;
+                }
+                case Node.FaceDirections.Down:{
+                    SetHorizontalBase(coordinates, sidesCoordinates);
+                    break;
+                }
+                case Node.FaceDirections.Left:{
+                    SetVerticalBase(coordinates, sidesCoordinates);
+                    break;
+                }
+                case Node.FaceDirections.Up:{
+                    SetHorizontalBase(coordinates, sidesCoordinates);
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            foreach (var side in sidesCoordinates){
+                this.Map[side].type = Node.Type.BlockedEmpty;
+            }
+        }
+
+        static void SetHorizontalBase(Vector2Int coordinates, ICollection<Vector2Int> sidesCoordinates){
+            sidesCoordinates.Add(new Vector2Int(coordinates.x + 1, coordinates.y));
+            sidesCoordinates.Add(new Vector2Int(coordinates.x - 1, coordinates.y));
+        }
+
+        static void SetVerticalBase(Vector2Int coordinates, ICollection<Vector2Int> sidesCoordinates){
+            sidesCoordinates.Add(new Vector2Int(coordinates.x, coordinates.y + 1));
+            sidesCoordinates.Add(new Vector2Int(coordinates.x, coordinates.y - 1));
         }
 
         int GetWallNeighbours(Vector2Int nodeCoordinates){

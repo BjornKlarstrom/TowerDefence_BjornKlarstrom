@@ -49,7 +49,13 @@ MonoBehaviour:
   unityGridSize: 10
   tileParent: {fileID: 319548185141554044}
   floorPrefab: {fileID: 4994658895151498244, guid: 90255653f8b5399418d5841030adbb23, type: 3}
-  wallPrefab: {fileID: 2971899725069100327, guid: d4b47a1460dcf1c4bae52ffea8456062, type: 3}
+  rockPrefab: {fileID: 2971899725069100327, guid: 9b03c8ca933fc8d4bbb713657a058433, type: 3}
+  enemyBase: {fileID: 2971899725069100327, guid: 9a32df8a9e75ef842a12715c29e98042, type: 3}
+  invisibleBlockedPrefab: {fileID: 2971899725069100327, guid: 8d878d528485b0c42b1d75ee023cdba2, type: 3}
+  wallPrefabs:
+  - {fileID: 2971899725069100327, guid: d4b47a1460dcf1c4bae52ffea8456062, type: 3}
+  - {fileID: 2971899725069100327, guid: 9c39d57521914ff409e503dbfa8ec873, type: 3}
+  - {fileID: 2971899725069100327, guid: ee093719890a7864c82503ba2e1d3470, type: 3}
 --- !u!114 &1806441140491501749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +71,7 @@ MonoBehaviour:
   seed: 
   useRandomSeed: 1
   wallPercent: 45
+  rockPercent: 0
   smoothingIterations: 1
 --- !u!1 &6183700855536919419
 GameObject:

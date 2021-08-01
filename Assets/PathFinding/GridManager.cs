@@ -17,18 +17,19 @@ namespace PathFinding{
         [SerializeField] GameObject floorPrefab;
         [SerializeField] GameObject rockPrefab;
         [SerializeField] GameObject enemyBase;
+        [SerializeField] GameObject invisibleBlockedPrefab;
         [SerializeField] GameObject[] wallPrefabs;
-
+        
         MapGenerator mapGenerator;
         
         void Awake(){
             this.mapGenerator = GetComponent<MapGenerator>();
             mapGenerator.MapSize = gridSize;
-            this.Grid = mapGenerator.GenerateMap();
+            //this.Grid = mapGenerator.GenerateMap();
         }
 
         void Start(){
-            PlaceTilesOnGrid();
+            //PlaceTilesOnGrid();
         }
 
         void CreateMap(){
@@ -90,39 +91,37 @@ namespace PathFinding{
 
             foreach (var node in Grid){
                 var randomWallTile = wallPrefabs[random.Next(0, wallPrefabs.Length)];
-                if (node.Value.type == Node.Type.Wall){
-                    Instantiate(randomWallTile, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
-                }
-                else if (node.Value.type == Node.Type.Rock){
-                    Instantiate(rockPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
-                }
-                else if (node.Value.isEnemyBase){
-                    var enemyBaseInstance = 
-                        Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
-                    
-                    switch (node.Value.faceDirection){
-                        case Node.FaceDirections.Right:
-                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,90,0);
-                            break;
-                        case Node.FaceDirections.Down:
-                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,180,0);
-                            break;
-                        case Node.FaceDirections.Left:
-                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,-90,0);
-                            break;
-                        case Node.FaceDirections.Up:
-                            enemyBaseInstance.transform.rotation = Quaternion.Euler(0,0,0);
-                            break;
-                        default:{
-                            if (node.Value.faceDirection == Node.FaceDirections.Left){
-                                enemyBaseInstance.transform.rotation = Quaternion.Euler(0,-180,0);
-                            }
-                            break;
-                        }
-                    }
-                }
-                else{
-                    Instantiate(floorPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                switch (node.Value.type){
+                    case Node.Type.Wall:
+                        Instantiate(randomWallTile, GetPositionFromCoordinates(node.Value.position),
+                            Quaternion.identity, this.tileParent);
+                        break;
+                    case Node.Type.Rock:
+                        Instantiate(rockPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
+                            this.tileParent);
+                        break;
+                    case Node.Type.Floor:
+                        Instantiate(floorPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                        break;
+                    case Node.Type.EnemyBase:
+                        var enemyBaseInstance =
+                            Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
+                                this.tileParent);
+
+                        enemyBaseInstance.transform.rotation = node.Value.faceDirection switch{
+                            Node.FaceDirections.Right => Quaternion.Euler(0, 90, 0),
+                            Node.FaceDirections.Down => Quaternion.Euler(0, 180, 0),
+                            Node.FaceDirections.Left => Quaternion.Euler(0, -90, 0),
+                            Node.FaceDirections.Up => Quaternion.Euler(0, 0, 0),
+                            _ => throw new ArgumentOutOfRangeException()
+                        };
+                        break;
+                    case Node.Type.BlockedEmpty:
+                        Instantiate(invisibleBlockedPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

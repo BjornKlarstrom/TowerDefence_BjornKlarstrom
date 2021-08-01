@@ -8,9 +8,6 @@ namespace PathFinding{
         public bool isWalkable;
         public bool isExplored;
         public bool isPath;
-        //public bool isWall;
-        //public bool isRock;
-        public bool isEnemyBase;
         public Node connectedTo;
         public FaceDirections faceDirection;
         public Type type;
@@ -26,7 +23,8 @@ namespace PathFinding{
             Floor,
             Wall,
             Rock,
-            EnemyBase
+            EnemyBase,
+            BlockedEmpty
         }
         
         public Node(Vector2Int position, bool isWalkable, Type type){
