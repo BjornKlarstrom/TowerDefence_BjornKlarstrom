@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
@@ -36,17 +37,18 @@ namespace PathFinding{
                 this.seed = Time.time.ToString(CultureInfo.InvariantCulture);
             }
 
-            var randomHashCode = new System.Random(seed.GetHashCode());
+            var random = new System.Random(seed.GetHashCode());
 
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
                     if (IsEdgeNode(coordinates)){
-                        this.Map.Add(coordinates, new Node(coordinates, false, true, false));
+                        this.Map.Add(coordinates, new Node(coordinates, false, Node.Type.Wall));
                     }
                     else{
-                        this.Map.Add(coordinates, new Node(coordinates, true, false, false));
-                        this.Map[coordinates].isWall = randomHashCode.Next(0, 100) < wallPercent;
+                        this.Map.Add(coordinates, new Node(coordinates, true, Node.Type.Floor));
+                        this.Map[coordinates].type = random.Next(0, 100) < wallPercent ? 
+                            Node.Type.Wall : Node.Type.Floor;
                     }
                 }
             }
@@ -77,11 +79,11 @@ namespace PathFinding{
                     var blockedNeighbours = GetWallNeighbours(coordinates);
                     if (blockedNeighbours > 4){
                         //this.Map[coordinates].ResetNode();
-                        this.Map[coordinates].isWall = true;
+                        this.Map[coordinates].type = Node.Type.Wall;
                     }
                     else if (blockedNeighbours < 4){
                         //this.Map[coordinates].ResetNode();
-                        this.Map[coordinates].isWall = false;
+                        this.Map[coordinates].type = Node.Type.Floor;
                     }
                 }
             }
@@ -92,13 +94,14 @@ namespace PathFinding{
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
-                    this.Map[coordinates].isRock = random.Next(0, 100) < rockPercent;
+                    if (random.Next(0, 100) < rockPercent && this.Map[coordinates].type != Node.Type.Wall){
+                        this.Map[coordinates].type = Node.Type.Rock;
+                    }
                 }
             }
         }
 
         void PlaceEnemyBase(){
-            Vector2Int enemyBaseCoordinates;
             var random = new System.Random();
             var enemyBaseSide = random.Next(0, 4);
             Debug.Log(enemyBaseSide);
@@ -108,10 +111,11 @@ namespace PathFinding{
                     for (var x = 0; x < MapSize.x; x++){
                         for (var y = 0; y < MapSize.y; y++){
                             var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].isWall) continue;
+                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
                             this.Map[coordinates].isEnemyBase = true;
-                            this.Map[coordinates].currentDirection = Node.FaceDirections.Right;
+                            this.Map[coordinates].faceDirection = Node.FaceDirections.Right;
+                            ClearEntranceForPath(coordinates);
                             return;
                         }
                     }
@@ -121,10 +125,11 @@ namespace PathFinding{
                     for (var y = MapSize.y - 1; y >= 0; y--){
                         for (var x = 0; x < MapSize.x; x++){
                             var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].isWall) continue;
+                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
                             this.Map[coordinates].isEnemyBase = true;
-                            this.Map[coordinates].currentDirection = Node.FaceDirections.Down;
+                            this.Map[coordinates].faceDirection = Node.FaceDirections.Down;
+                            ClearEntranceForPath(coordinates);
                             return;
                         }
                     }
@@ -135,10 +140,11 @@ namespace PathFinding{
                     for (var x = MapSize.x - 1; x > 0; x--){
                         for (var y = 0; y < MapSize.y; y++){
                             var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].isWall) continue;
+                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
                             this.Map[coordinates].isEnemyBase = true;
-                            this.Map[coordinates].currentDirection = Node.FaceDirections.Left;
+                            this.Map[coordinates].faceDirection = Node.FaceDirections.Left;
+                            ClearEntranceForPath(coordinates);
                             return;
                         }
                     }
@@ -149,10 +155,11 @@ namespace PathFinding{
                     for (var y = 0; y < MapSize.x; y++){
                         for (var x = 0; x < MapSize.y; x++){
                             var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].isWall) continue;
+                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
                             this.Map[coordinates].ResetNode();
                             this.Map[coordinates].isEnemyBase = true;
-                            this.Map[coordinates].currentDirection = Node.FaceDirections.Up;
+                            this.Map[coordinates].faceDirection = Node.FaceDirections.Up;
+                            ClearEntranceForPath(coordinates);
                             return;
                         }
                     }
@@ -160,7 +167,35 @@ namespace PathFinding{
                 }
             }
         }
-        
+
+        void ClearEntranceForPath(Vector2Int coordinates){
+            
+            switch (this.Map[coordinates].faceDirection){
+                case Node.FaceDirections.Right:{
+                    Debug.Log("Right");
+                    this.Map[new Vector2Int(coordinates.x + 1, coordinates.y)].ResetNode();
+                    break;
+                }
+                case Node.FaceDirections.Down:{
+                    Debug.Log("Down");
+                    this.Map[new Vector2Int(coordinates.x, coordinates.y - 1)].ResetNode();
+                    break;
+                }
+                case Node.FaceDirections.Left:{
+                    Debug.Log("Left");
+                    this.Map[new Vector2Int(coordinates.x - 1, coordinates.y)].ResetNode();
+                    break;
+                }
+                case Node.FaceDirections.Up:{
+                    Debug.Log("Up");
+                    this.Map[new Vector2Int(coordinates.x, coordinates.y + 1)].ResetNode();
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         int GetWallNeighbours(Vector2Int nodeCoordinates){
             var wallNeighbourCount = 0;
             for (var x = nodeCoordinates.x - 1; x <= nodeCoordinates.x + 1; x++){
@@ -168,7 +203,7 @@ namespace PathFinding{
                     var coordinates = new Vector2Int(x, y);
                     if (IsInsideMap(coordinates)){
                         if (x == nodeCoordinates.x && y == nodeCoordinates.y) continue;
-                        if (this.Map[coordinates].isWall){
+                        if (this.Map[coordinates].type == Node.Type.Wall){
                             wallNeighbourCount++;
                         }
                     }

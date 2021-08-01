@@ -8,11 +8,12 @@ namespace PathFinding{
         public bool isWalkable;
         public bool isExplored;
         public bool isPath;
-        public bool isWall;
-        public bool isRock;
+        //public bool isWall;
+        //public bool isRock;
         public bool isEnemyBase;
         public Node connectedTo;
-        public FaceDirections currentDirection;
+        public FaceDirections faceDirection;
+        public Type type;
 
         public enum FaceDirections{
             Left,
@@ -21,16 +22,21 @@ namespace PathFinding{
             Down
         }
         
-        public Node(Vector2Int position, bool isWalkable, bool isWall, bool isRock){
+        public enum Type{
+            Floor,
+            Wall,
+            Rock,
+            EnemyBase
+        }
+        
+        public Node(Vector2Int position, bool isWalkable, Type type){
             this.position = position;
             this.isWalkable = isWalkable;
-            this.isWall = isWall;
-            this.isRock = isRock;
+            this.type = type;
         }
 
         public void ResetNode(){
-            this.isRock = false;
-            this.isWall = false;
+            this.type = Type.Floor;
             this.isWalkable = true;
         }
     }

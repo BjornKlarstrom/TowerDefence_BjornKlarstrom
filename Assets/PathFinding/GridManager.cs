@@ -35,7 +35,7 @@ namespace PathFinding{
             for (var x = 0; x < gridSize.x; x++){
                 for (var y = 0; y < gridSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
-                    Grid.Add(coordinates, new Node(coordinates, true, false, false));
+                    Grid.Add(coordinates, new Node(coordinates, true, Node.Type.Floor));
                 }
             }
         }
@@ -90,17 +90,17 @@ namespace PathFinding{
 
             foreach (var node in Grid){
                 var randomWallTile = wallPrefabs[random.Next(0, wallPrefabs.Length)];
-                if (node.Value.isWall){
+                if (node.Value.type == Node.Type.Wall){
                     Instantiate(randomWallTile, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                 }
-                else if (node.Value.isRock){
+                else if (node.Value.type == Node.Type.Rock){
                     Instantiate(rockPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                 }
                 else if (node.Value.isEnemyBase){
                     var enemyBaseInstance = 
                         Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                     
-                    switch (node.Value.currentDirection){
+                    switch (node.Value.faceDirection){
                         case Node.FaceDirections.Right:
                             enemyBaseInstance.transform.rotation = Quaternion.Euler(0,90,0);
                             break;
@@ -114,7 +114,7 @@ namespace PathFinding{
                             enemyBaseInstance.transform.rotation = Quaternion.Euler(0,0,0);
                             break;
                         default:{
-                            if (node.Value.currentDirection == Node.FaceDirections.Left){
+                            if (node.Value.faceDirection == Node.FaceDirections.Left){
                                 enemyBaseInstance.transform.rotation = Quaternion.Euler(0,-180,0);
                             }
                             break;

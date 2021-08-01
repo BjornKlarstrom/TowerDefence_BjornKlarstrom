@@ -43,8 +43,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.110657595, b: 0, a: 1}
-  m_Intensity: 500
-  m_Range: 21.54
+  m_Intensity: 1000
+  m_Range: 300
   m_SpotAngle: 110.27443
   m_InnerSpotAngle: 91.29337
   m_CookieSize: 10
@@ -101,6 +101,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1437380764215386871, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: blockedColor.b
       value: 0.047169805
       objectReference: {fileID: 0}
@@ -123,11 +127,11 @@ PrefabInstance:
     - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: bb27996d7006ee64e9c438b2ec233448, type: 2}
+      objectReference: {fileID: 2100000, guid: 59ecf6eb078d2a44490ca88e599b090c, type: 2}
     - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: e22e13f50be53ee4aa923525f33441f3, type: 2}
+      objectReference: {fileID: 2100000, guid: 01592eb9798bca04688d528d389b9572, type: 2}
     - target: {fileID: 4994658893743796254, guid: 90255653f8b5399418d5841030adbb23, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 

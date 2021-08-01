@@ -21,18 +21,18 @@ namespace Tiles{
         void Awake(){
             gridManager = FindObjectOfType<GridManager>();
             coordinateText = GetComponent<TextMeshPro>();
-            coordinateText.enabled = true;
-            DisplayCoordinates();
+            //coordinateText.enabled = true;
+            //DisplayCoordinates();
         }
 
-        void Update(){
+        /*void Update(){
             if (!Application.isPlaying){
                 DisplayCoordinates();
                 DisplayInHierarchy();
             }
             SetTextColor();
             ToggleCoordinateText();
-        }
+        }*/
 
         void ToggleCoordinateText(){
             if (Input.GetKeyDown(KeyCode.C)){

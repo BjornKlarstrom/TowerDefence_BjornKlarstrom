@@ -730,7 +730,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1806441140491501749, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
       propertyPath: rockPercent
-      value: 7
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1806441140491501749, guid: 93eb85aff3945ab47899d0df07138651, type: 3}
       propertyPath: wallPercent
