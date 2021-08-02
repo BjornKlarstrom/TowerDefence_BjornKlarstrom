@@ -28,7 +28,7 @@ namespace PathFinding{
                 SmoothMap();
             }
             PlaceRocks();
-            PlaceEnemyBase();
+            PlaceBases();
             return Map;
         }
 
@@ -43,12 +43,12 @@ namespace PathFinding{
                 for (var y = 0; y < MapSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
                     if (IsEdgeNode(coordinates)){
-                        this.Map.Add(coordinates, new Node(coordinates, false, Node.Type.Wall));
+                        this.Map.Add(coordinates, new Node(coordinates, false, Node.NodeType.Wall));
                     }
                     else{
-                        this.Map.Add(coordinates, new Node(coordinates, true, Node.Type.Floor));
-                        this.Map[coordinates].type = random.Next(0, 100) < wallPercent ? 
-                            Node.Type.Wall : Node.Type.Floor;
+                        this.Map.Add(coordinates, new Node(coordinates, true, Node.NodeType.Floor));
+                        this.Map[coordinates].nodeType = random.Next(0, 100) < wallPercent ? 
+                            Node.NodeType.Wall : Node.NodeType.Floor;
                     }
                 }
             }
@@ -79,11 +79,11 @@ namespace PathFinding{
                     var blockedNeighbours = GetWallNeighbours(coordinates);
                     if (blockedNeighbours > 4){
                         //this.Map[coordinates].ResetNode();
-                        this.Map[coordinates].type = Node.Type.Wall;
+                        this.Map[coordinates].nodeType = Node.NodeType.Wall;
                     }
                     else if (blockedNeighbours < 2){
                         //this.Map[coordinates].ResetNode();
-                        this.Map[coordinates].type = Node.Type.Floor;
+                        this.Map[coordinates].nodeType = Node.NodeType.Floor;
                     }
                 }
             }
@@ -94,77 +94,53 @@ namespace PathFinding{
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
-                    if (random.Next(0, 100) < rockPercent && this.Map[coordinates].type != Node.Type.Wall){
-                        this.Map[coordinates].type = Node.Type.Rock;
+                    if (random.Next(0, 100) < rockPercent && this.Map[coordinates].nodeType != Node.NodeType.Wall){
+                        this.Map[coordinates].nodeType = Node.NodeType.Rock;
                     }
                 }
             }
         }
 
-        void PlaceEnemyBase(){
+        void PlaceBases(){
 
-            var values = Enum.GetValues(typeof(EnemyBaseSide));
+            var values = Enum.GetValues(typeof(BaseSide));
             var random = new System.Random();
-            var randomSide = (EnemyBaseSide)values.GetValue(random.Next(values.Length));
+            var randomSide = (BaseSide)values.GetValue(random.Next(values.Length));
 
             switch (randomSide){
-                case EnemyBaseSide.Left:{
+                case BaseSide.Left:{
                     for (var x = 0; x < MapSize.x; x++){
                         for (var y = 0; y < MapSize.y; y++){
-                            var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
-                            this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].type = Node.Type.EnemyBase;
-                            this.Map[coordinates].faceDirection = Node.FaceDirections.Right;
-                            ClearEntranceForPath(coordinates);
-                            MakeWayForEnemyBaseSides(coordinates);
+                            if (PlaceOnRandomSide(x, y)) continue;
                             return;
                         }
                     }
                     break;
                 }
-                case EnemyBaseSide.Top:{
+                case BaseSide.Top:{
                     for (var y = MapSize.y - 1; y >= 0; y--){
                         for (var x = 0; x < MapSize.x; x++){
-                            var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
-                            this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].type = Node.Type.EnemyBase;
-                            this.Map[coordinates].faceDirection = Node.FaceDirections.Down;
-                            ClearEntranceForPath(coordinates);
-                            MakeWayForEnemyBaseSides(coordinates);
+                            if (PlaceOnRandomSide(x, y)) continue;
                             return;
                         }
                     }
                     break;
                 }
                 
-                case EnemyBaseSide.Right:{
+                case BaseSide.Right:{
                     for (var x = MapSize.x - 1; x > 0; x--){
                         for (var y = 0; y < MapSize.y; y++){
-                            var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
-                            this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].type = Node.Type.EnemyBase;
-                            this.Map[coordinates].faceDirection = Node.FaceDirections.Left;
-                            ClearEntranceForPath(coordinates);
-                            MakeWayForEnemyBaseSides(coordinates);
+                            if (PlaceOnRandomSide(x, y)) continue;
                             return;
                         }
                     }
                     break;
                 }
                 
-                case EnemyBaseSide.Bottom:{
+                case BaseSide.Bottom:{
                     for (var y = 0; y < MapSize.x; y++){
                         for (var x = 0; x < MapSize.y; x++){
-                            var coordinates = new Vector2Int(x, y);
-                            if (this.Map[coordinates].type == Node.Type.Wall) continue;
-                            this.Map[coordinates].ResetNode();
-                            this.Map[coordinates].type = Node.Type.EnemyBase;
-                            this.Map[coordinates].faceDirection = Node.FaceDirections.Up;
-                            ClearEntranceForPath(coordinates);
-                            MakeWayForEnemyBaseSides(coordinates);
+                            if (PlaceOnRandomSide(x, y)) continue;
                             return;
                         }
                     }
@@ -175,7 +151,18 @@ namespace PathFinding{
             }
         }
 
-        enum EnemyBaseSide{
+        bool PlaceOnRandomSide(int x, int y){
+            var coordinates = new Vector2Int(x, y);
+            if (this.Map[coordinates].nodeType == Node.NodeType.Wall) return true;
+            this.Map[coordinates].ResetNode();
+            this.Map[coordinates].nodeType = Node.NodeType.EnemyBase;
+            this.Map[coordinates].faceDirection = Node.FaceDirections.Right;
+            ClearEntranceForPath(coordinates);
+            MakeWayForEnemyBaseSides(coordinates);
+            return false;
+        }
+
+        enum BaseSide{
             Left = 0,
             Top = 1,
             Right = 2,
@@ -237,7 +224,7 @@ namespace PathFinding{
             }
 
             foreach (var side in sidesCoordinates){
-                this.Map[side].type = Node.Type.BlockedEmpty;
+                this.Map[side].nodeType = Node.NodeType.BlockedEmpty;
             }
         }
 
@@ -258,7 +245,7 @@ namespace PathFinding{
                     var coordinates = new Vector2Int(x, y);
                     if (IsInsideMap(coordinates)){
                         if (x == nodeCoordinates.x && y == nodeCoordinates.y) continue;
-                        if (this.Map[coordinates].type == Node.Type.Wall){
+                        if (this.Map[coordinates].nodeType == Node.NodeType.Wall){
                             wallNeighbourCount++;
                         }
                     }

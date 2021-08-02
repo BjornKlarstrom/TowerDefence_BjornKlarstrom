@@ -10,7 +10,7 @@ namespace PathFinding{
         public bool isPath;
         public Node connectedTo;
         public FaceDirections faceDirection;
-        public Type type;
+        public NodeType nodeType;
 
         public enum FaceDirections{
             Left,
@@ -19,22 +19,23 @@ namespace PathFinding{
             Down
         }
         
-        public enum Type{
+        public enum NodeType{
             Floor,
             Wall,
             Rock,
             EnemyBase,
+            PlayerBase,
             BlockedEmpty
         }
         
-        public Node(Vector2Int position, bool isWalkable, Type type){
+        public Node(Vector2Int position, bool isWalkable, NodeType nodeType){
             this.position = position;
             this.isWalkable = isWalkable;
-            this.type = type;
+            this.nodeType = nodeType;
         }
 
         public void ResetNode(){
-            this.type = Type.Floor;
+            this.nodeType = NodeType.Floor;
             this.isWalkable = true;
         }
     }

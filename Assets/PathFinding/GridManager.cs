@@ -13,10 +13,12 @@ namespace PathFinding{
 
         public Dictionary<Vector2Int, Node> Grid{ get; private set; } = new Dictionary<Vector2Int, Node>();
 
+        [Header("Tile Prefabs")]
         [SerializeField] Transform tileParent;
         [SerializeField] GameObject floorPrefab;
         [SerializeField] GameObject rockPrefab;
         [SerializeField] GameObject enemyBase;
+        [SerializeField] GameObject playerBase;
         [SerializeField] GameObject invisibleBlockedPrefab;
         [SerializeField] GameObject[] wallPrefabs;
         
@@ -36,7 +38,7 @@ namespace PathFinding{
             for (var x = 0; x < gridSize.x; x++){
                 for (var y = 0; y < gridSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
-                    Grid.Add(coordinates, new Node(coordinates, true, Node.Type.Floor));
+                    Grid.Add(coordinates, new Node(coordinates, true, Node.NodeType.Floor));
                 }
             }
         }
@@ -91,19 +93,19 @@ namespace PathFinding{
 
             foreach (var node in Grid){
                 var randomWallTile = wallPrefabs[random.Next(0, wallPrefabs.Length)];
-                switch (node.Value.type){
-                    case Node.Type.Wall:
+                switch (node.Value.nodeType){
+                    case Node.NodeType.Wall:
                         Instantiate(randomWallTile, GetPositionFromCoordinates(node.Value.position),
                             Quaternion.identity, this.tileParent);
                         break;
-                    case Node.Type.Rock:
+                    case Node.NodeType.Rock:
                         Instantiate(rockPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
                             this.tileParent);
                         break;
-                    case Node.Type.Floor:
+                    case Node.NodeType.Floor:
                         Instantiate(floorPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                         break;
-                    case Node.Type.EnemyBase:
+                    case Node.NodeType.EnemyBase:
                         var enemyBaseInstance =
                             Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
                                 this.tileParent);
@@ -116,7 +118,7 @@ namespace PathFinding{
                             _ => throw new ArgumentOutOfRangeException()
                         };
                         break;
-                    case Node.Type.BlockedEmpty:
+                    case Node.NodeType.BlockedEmpty:
                         Instantiate(invisibleBlockedPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                         break;
 
