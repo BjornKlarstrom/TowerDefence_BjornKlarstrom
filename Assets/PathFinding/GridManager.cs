@@ -118,6 +118,19 @@ namespace PathFinding{
                             _ => throw new ArgumentOutOfRangeException()
                         };
                         break;
+                    case Node.NodeType.PlayerBase:
+                        var playerBaseInstance =
+                            Instantiate(playerBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
+                                this.tileParent);
+
+                        playerBaseInstance.transform.rotation = node.Value.faceDirection switch{
+                            Node.FaceDirections.Right => Quaternion.Euler(0, 90, 0),
+                            Node.FaceDirections.Down => Quaternion.Euler(0, 180, 0),
+                            Node.FaceDirections.Left => Quaternion.Euler(0, -90, 0),
+                            Node.FaceDirections.Up => Quaternion.Euler(0, 0, 0),
+                            _ => throw new ArgumentOutOfRangeException()
+                        };
+                        break;
                     case Node.NodeType.BlockedEmpty:
                         Instantiate(invisibleBlockedPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                         break;
