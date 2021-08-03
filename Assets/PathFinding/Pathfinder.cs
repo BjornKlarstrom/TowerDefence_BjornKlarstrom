@@ -1,15 +1,22 @@
 using System;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
 
 namespace PathFinding{
     public class Pathfinder : MonoBehaviour{
         
         [SerializeField] Vector2Int startCoordinates;
-        public Vector2Int StartCoordinates => startCoordinates;
+        public Vector2Int StartCoordinates{
+            get => startCoordinates;
+            set => startCoordinates = value;
+        }
 
         [SerializeField] Vector2Int endCoordinates;
-        public Vector2Int EndCoordinates => endCoordinates;
+        public Vector2Int EndCoordinates{
+            get => endCoordinates;
+            set => endCoordinates = value;
+        }
 
         Node startNode;
         Node endNode;
@@ -21,19 +28,32 @@ namespace PathFinding{
         readonly Vector2Int[] directions = { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
         GridManager gridManager;
         public Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
+
+        EnemyPool enemyPool;
         void Awake(){
             gridManager = FindObjectOfType<GridManager>();
-            if (gridManager == null) return;
+            enemyPool = GetComponent<EnemyPool>();
+            /*if (gridManager == null) return;
             this.grid = gridManager.Grid;
-            //this.startNode = grid[startCoordinates];
-            //this.endNode = grid[endCoordinates];
+            this.startNode = grid[StartCoordinates];
+            this.endNode = grid[EndCoordinates];*/
         }
 
         void Start(){
             //GetNewPath();
         }
 
+        public void InitPathfinder(){
+            if (gridManager == null) return;
+            this.grid = gridManager.Grid;
+            this.startNode = grid[StartCoordinates];
+            this.endNode = grid[EndCoordinates];
+            GetNewPath();
+            enemyPool.StartSpawningEnemies();
+        }
+
         public List<Node> GetNewPath(){
+            Debug.Log("Init pathFinder.. start: " + startNode.position + " end: " + endNode.position);
             return GetNewPath(startCoordinates);
         }
         
@@ -81,8 +101,10 @@ namespace PathFinding{
         }
 
         List<Node> BuildPath(){
+            //Debug.Log("Hello Build Path");
             var path = new List<Node>();
             var currentNode = endNode;
+            //Debug.Log("End node: " + currentNode.position);
             
             path.Add(currentNode);
             currentNode.isPath = true;
@@ -93,6 +115,7 @@ namespace PathFinding{
                 currentNode.isPath = true;
             }
             path.Reverse();
+            Debug.Log("path lenght: " + path.Count);
             return path;
         }
 

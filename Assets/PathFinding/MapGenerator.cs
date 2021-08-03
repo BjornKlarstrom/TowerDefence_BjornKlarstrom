@@ -104,24 +104,24 @@ namespace PathFinding{
 
             var values = Enum.GetValues(typeof(BaseSide));
             var random = new System.Random();
+            
             var randomEnemySide = (BaseSide)values.GetValue(random.Next(values.Length));
+            
             BaseSide randomPlayerSide;
             do{
                 randomPlayerSide = (BaseSide) values.GetValue(random.Next(values.Length));
             } while (randomPlayerSide == randomEnemySide);
-            
-            Debug.Log(randomEnemySide + " " + randomPlayerSide);
 
             FindFirstAvailableTile(randomEnemySide, Node.NodeType.EnemyBase);
             FindFirstAvailableTile(randomPlayerSide, Node.NodeType.PlayerBase);
-            
         }
 
         void FindFirstAvailableTile(BaseSide randomSide, Node.NodeType type){
+            const int cornerThreshold = 2;
             switch (randomSide){
                 case BaseSide.Left:{
                     for (var x = 0; x < MapSize.x; x++){
-                        for (var y = 0; y < MapSize.y; y++){
+                        for (var y = cornerThreshold; y < MapSize.y - cornerThreshold; y++){
                             if (IsWall(x, y)) continue;
                             SetupBaseNode(new Vector2Int(x, y), randomSide, type);
                             return;
@@ -131,7 +131,7 @@ namespace PathFinding{
                 }
                 case BaseSide.Top:{
                     for (var y = MapSize.y - 1; y >= 0; y--){
-                        for (var x = 0; x < MapSize.x; x++){
+                        for (var x = cornerThreshold; x < MapSize.x - cornerThreshold; x++){
                             if (IsWall(x, y)) continue;
                             SetupBaseNode(new Vector2Int(x, y), randomSide, type);
                             return;
@@ -142,7 +142,7 @@ namespace PathFinding{
 
                 case BaseSide.Right:{
                     for (var x = MapSize.x - 1; x > 0; x--){
-                        for (var y = 0; y < MapSize.y; y++){
+                        for (var y = cornerThreshold; y < MapSize.y - cornerThreshold; y++){
                             if (IsWall(x, y)) continue;
                             SetupBaseNode(new Vector2Int(x, y), randomSide, type);
                             return;
@@ -153,7 +153,7 @@ namespace PathFinding{
 
                 case BaseSide.Bottom:{
                     for (var y = 0; y < MapSize.x; y++){
-                        for (var x = 0; x < MapSize.y; x++){
+                        for (var x = cornerThreshold; x < MapSize.y - cornerThreshold; x++){
                             if (IsWall(x, y)) continue;
                             SetupBaseNode(new Vector2Int(x, y), randomSide, type);
                             return;
@@ -202,22 +202,18 @@ namespace PathFinding{
             
             switch (this.Map[coordinates].faceDirection){
                 case Node.FaceDirections.Right:{
-                    Debug.Log("Right");
                     this.Map[new Vector2Int(coordinates.x + 1, coordinates.y)].ResetNode();
                     break;
                 }
                 case Node.FaceDirections.Down:{
-                    Debug.Log("Down");
                     this.Map[new Vector2Int(coordinates.x, coordinates.y - 1)].ResetNode();
                     break;
                 }
                 case Node.FaceDirections.Left:{
-                    Debug.Log("Left");
                     this.Map[new Vector2Int(coordinates.x - 1, coordinates.y)].ResetNode();
                     break;
                 }
                 case Node.FaceDirections.Up:{
-                    Debug.Log("Up");
                     this.Map[new Vector2Int(coordinates.x, coordinates.y + 1)].ResetNode();
                     break;
                 }

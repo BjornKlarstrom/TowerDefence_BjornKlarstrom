@@ -26,9 +26,13 @@ namespace Enemies{
 
         void OnEnable(){
             ReturnToStart();
-            //RecalculatePath(true);
+            RecalculatePath(true);
         }
 
+        void ReturnToStart(){
+            this.transform.position = gridManager.GetPositionFromCoordinates(pathfinder.StartCoordinates);
+        }
+        
         void RecalculatePath(bool resetPath){
             var coordinates = resetPath ? 
                 pathfinder.StartCoordinates : 
@@ -41,10 +45,6 @@ namespace Enemies{
         }
         void DisableEnemy(){
             gameObject.SetActive(false);
-        }
-
-        void ReturnToStart(){
-            this.transform.position = gridManager.GetPositionFromCoordinates(pathfinder.StartCoordinates);
         }
 
         void FinishPath(){

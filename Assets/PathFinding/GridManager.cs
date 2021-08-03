@@ -23,30 +23,21 @@ namespace PathFinding{
         [SerializeField] GameObject[] wallPrefabs;
         
         MapGenerator mapGenerator;
+        Pathfinder pathfinder;
         
         void Awake(){
             this.mapGenerator = GetComponent<MapGenerator>();
             mapGenerator.MapSize = gridSize;
-            //this.Grid = mapGenerator.GenerateMap();
-        }
+            this.Grid = mapGenerator.GenerateMap();
 
-        void Start(){
-            //PlaceTilesOnGrid();
-        }
-
-        void CreateMap(){
-            for (var x = 0; x < gridSize.x; x++){
-                for (var y = 0; y < gridSize.y; y++){
-                    var coordinates = new Vector2Int(x, y);
-                    Grid.Add(coordinates, new Node(coordinates, true, Node.NodeType.Floor));
-                }
-            }
+            this.pathfinder = FindObjectOfType<Pathfinder>();
         }
 
         public void CreateRandomizedMap(){
             this.Grid.Clear();
             this.Grid = mapGenerator.GenerateMap();
             PlaceTilesOnGrid();
+            this.pathfinder.InitPathfinder();
         }
         
         public Node GetNode(Vector2Int coordinates){
@@ -106,6 +97,7 @@ namespace PathFinding{
                         Instantiate(floorPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                         break;
                     case Node.NodeType.EnemyBase:
+                        pathfinder.StartCoordinates = node.Value.position;
                         var enemyBaseInstance =
                             Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
                                 this.tileParent);
@@ -119,6 +111,7 @@ namespace PathFinding{
                         };
                         break;
                     case Node.NodeType.PlayerBase:
+                        pathfinder.EndCoordinates = node.Value.position;
                         var playerBaseInstance =
                             Instantiate(playerBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
                                 this.tileParent);

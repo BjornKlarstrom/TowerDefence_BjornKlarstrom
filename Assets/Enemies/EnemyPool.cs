@@ -1,4 +1,5 @@
 using System.Collections;
+using PathFinding;
 using UnityEngine;
 
 namespace Enemies{
@@ -9,12 +10,22 @@ namespace Enemies{
 
         GameObject[] pool;
 
-        void Awake(){
+        Pathfinder pathfinder;
+
+        /*void Awake(){
             FillPool();
-        }
+        }*/
         void Start(){
+            this.pathfinder = GetComponent<Pathfinder>();
+            //StartCoroutine(SpawnEnemy());
+        }
+
+        public void StartSpawningEnemies(){
+            pathfinder.GetNewPath();
+            FillPool();
             StartCoroutine(SpawnEnemy());
         }
+        
         void FillPool(){
             pool = new GameObject[size];
 
