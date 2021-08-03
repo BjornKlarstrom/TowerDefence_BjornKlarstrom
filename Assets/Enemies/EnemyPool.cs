@@ -15,7 +15,7 @@ namespace Enemies{
         /*void Awake(){
             FillPool();
         }*/
-        void Start(){
+        void Awake(){
             this.pathfinder = GetComponent<Pathfinder>();
             //StartCoroutine(SpawnEnemy());
         }

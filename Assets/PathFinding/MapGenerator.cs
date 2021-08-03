@@ -93,9 +93,10 @@ namespace PathFinding{
             for (var x = 0; x < MapSize.x; x++){
                 for (var y = 0; y < MapSize.y; y++){
                     var coordinates = new Vector2Int(x, y);
-                    if (random.Next(0, 100) < rockPercent && this.Map[coordinates].nodeType != Node.NodeType.Wall){
-                        this.Map[coordinates].nodeType = Node.NodeType.Rock;
-                    }
+                    if (random.Next(0, 100) >= rockPercent ||
+                        this.Map[coordinates].nodeType == Node.NodeType.Wall) continue;
+                    this.Map[coordinates].nodeType = Node.NodeType.Rock;
+                    this.Map[coordinates].isWalkable = false;
                 }
             }
         }

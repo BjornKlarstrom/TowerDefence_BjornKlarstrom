@@ -28,6 +28,8 @@ namespace PathFinding{
         readonly Vector2Int[] directions = { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
         GridManager gridManager;
         public Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
+        
+        public int PathLenght{ get; set; }
 
         EnemyPool enemyPool;
         void Awake(){
@@ -49,11 +51,9 @@ namespace PathFinding{
             this.startNode = grid[StartCoordinates];
             this.endNode = grid[EndCoordinates];
             GetNewPath();
-            enemyPool.StartSpawningEnemies();
         }
 
         public List<Node> GetNewPath(){
-            Debug.Log("Init pathFinder.. start: " + startNode.position + " end: " + endNode.position);
             return GetNewPath(startCoordinates);
         }
         
@@ -101,11 +101,9 @@ namespace PathFinding{
         }
 
         List<Node> BuildPath(){
-            //Debug.Log("Hello Build Path");
             var path = new List<Node>();
             var currentNode = endNode;
-            //Debug.Log("End node: " + currentNode.position);
-            
+
             path.Add(currentNode);
             currentNode.isPath = true;
 
@@ -114,8 +112,9 @@ namespace PathFinding{
                 path.Add(currentNode);
                 currentNode.isPath = true;
             }
+
+            PathLenght = path.Count;
             path.Reverse();
-            Debug.Log("path lenght: " + path.Count);
             return path;
         }
 

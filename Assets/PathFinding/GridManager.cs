@@ -37,7 +37,7 @@ namespace PathFinding{
             this.Grid.Clear();
             this.Grid = mapGenerator.GenerateMap();
             PlaceTilesOnGrid();
-            this.pathfinder.InitPathfinder();
+            //this.pathfinder.InitPathfinder();
         }
         
         public Node GetNode(Vector2Int coordinates){

@@ -69,5 +69,9 @@ namespace Enemies{
 
             FinishPath();
         }
+
+        public int GetPathLenght(){
+            return path.Count;
+        }
     }
 }
