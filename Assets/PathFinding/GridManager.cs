@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace PathFinding{
         public void CreateRandomizedMap(){
             this.Grid.Clear();
             this.Grid = mapGenerator.GenerateMap();
-            PlaceTilesOnGrid();
+            StartCoroutine(PlaceTilesOnGrid());
             //this.pathfinder.InitPathfinder();
         }
         
@@ -74,8 +75,8 @@ namespace PathFinding{
             return position;
         }
         
-        void PlaceTilesOnGrid(){
-            if (Grid == null) return;
+        IEnumerator PlaceTilesOnGrid(){
+            //if (Grid == null) return;
             var random = new System.Random();
 
             foreach (Transform tile in tileParent.transform){
@@ -83,6 +84,7 @@ namespace PathFinding{
             }
 
             foreach (var node in Grid){
+                yield return new WaitForSeconds(0.01f);
                 var randomWallTile = wallPrefabs[random.Next(0, wallPrefabs.Length)];
                 switch (node.Value.nodeType){
                     case Node.NodeType.Wall:
@@ -127,9 +129,10 @@ namespace PathFinding{
                     case Node.NodeType.BlockedEmpty:
                         Instantiate(invisibleBlockedPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);
                         break;
-
+                    
                     default:
                         throw new ArgumentOutOfRangeException();
+                    
                 }
             }
         }

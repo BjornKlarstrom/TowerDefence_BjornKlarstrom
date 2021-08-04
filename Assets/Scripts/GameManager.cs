@@ -24,12 +24,10 @@ public class GameManager : MonoBehaviour{
     public void CreateMap(){
 
             gridManager.CreateRandomizedMap();
-            pathfinder.InitPathfinder();
-            Debug.Log(pathfinder.PathLenght);
-
     }
 
     public void StartEnemies(){
+        pathfinder.InitPathfinder();
         enemyPool.StartSpawningEnemies();
     }
     
