@@ -47,9 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e77be9bdfd2e9e4787b9b5cd7bd3b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: []
   speed: 1.5
-  waypointYOffset: 5
+  YOffset: 5
 --- !u!114 &7263809440633054105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bcd8f1d965c6b1459a41c8ab2ac43d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldReward: 25
+  goldPenalty: 25
 --- !u!114 &6241568783640923668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
+  difficultyRamp: 1
 --- !u!65 &4628961233841827413
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -127,7 +129,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3473049463250716610}
-  m_Mesh: {fileID: -4728807580002398413, guid: e5cd56a7259c27544b8573891c93ca5b, type: 3}
+  m_Mesh: {fileID: 2577605498132430527, guid: 26dc83c6a67294943b146d2696eb7082, type: 3}
 --- !u!23 &3473049463250716615
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -148,7 +150,11 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6de751cc18c33d2458ae2586277ea204, type: 2}
+  - {fileID: 2100000, guid: a6462982f05077a44b0f2eb063dd908d, type: 2}
+  - {fileID: 2100000, guid: 7162b6e1c3686f747a1ec5e0dcc3572a, type: 2}
+  - {fileID: 2100000, guid: bacde6cd88bbacb4db797f3c04052b66, type: 2}
+  - {fileID: 2100000, guid: 91ca306266330e84d82d3b1df1f8d0cc, type: 2}
+  - {fileID: 2100000, guid: c0d52e0b2f0ccfb4e998895d6f69a562, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

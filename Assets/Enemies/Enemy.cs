@@ -5,18 +5,18 @@ namespace Enemies{
         [SerializeField] int goldReward = 25;
         [SerializeField] int goldPenalty = 25;
 
-        Bank bank;
+        Currency currency;
 
         void Start(){
-            bank = FindObjectOfType<Bank>();
+            currency = FindObjectOfType<Currency>();
         }
-        public void RewardGold(){
-            if(bank == null) { return; }
-            bank.Deposit(goldReward);   
+        public void GainDominance(){
+            if(currency == null) { return; }
+            currency.Deposit(goldReward);   
         }
-        public void StealGold(){
-            if(bank == null) { return; }
-            bank.Withdraw(goldPenalty);   
+        public void LoseDominance(){
+            if(currency == null) { return; }
+            currency.Withdraw(goldPenalty);   
         }
     }
 }

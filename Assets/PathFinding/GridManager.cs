@@ -12,15 +12,17 @@ namespace PathFinding{
         [SerializeField] int unityGridSize = 10;
         public int UnityGridSize => unityGridSize;
 
+        [SerializeField] float drawTilesSpeed = 0.1f;
+
         public Dictionary<Vector2Int, Node> Grid{ get; private set; } = new Dictionary<Vector2Int, Node>();
 
         [Header("Tile Prefabs")]
         [SerializeField] Transform tileParent;
         [SerializeField] GameObject floorPrefab;
-        [SerializeField] GameObject rockPrefab;
         [SerializeField] GameObject enemyBase;
         [SerializeField] GameObject playerBase;
         [SerializeField] GameObject invisibleBlockedPrefab;
+        [SerializeField] GameObject[] rockPrefabs;
         [SerializeField] GameObject[] wallPrefabs;
         
         MapGenerator mapGenerator;
@@ -32,11 +34,13 @@ namespace PathFinding{
             this.Grid = mapGenerator.GenerateMap();
 
             this.pathfinder = FindObjectOfType<Pathfinder>();
+            CreateRandomizedMap();
         }
 
         public void CreateRandomizedMap(){
             this.Grid.Clear();
             this.Grid = mapGenerator.GenerateMap();
+            //PlaceTilesOnGridFast();
             StartCoroutine(PlaceTilesOnGrid());
             //this.pathfinder.InitPathfinder();
         }
@@ -74,7 +78,73 @@ namespace PathFinding{
             };
             return position;
         }
-        
+
+        void PlaceTilesOnGridFast(){
+            //if (Grid == null) return;
+            var random = new System.Random();
+
+            foreach (Transform tile in tileParent.transform){
+                Destroy(tile.gameObject);
+            }
+
+            foreach (var node in Grid){
+
+                var randomWallTile = wallPrefabs[random.Next(0, wallPrefabs.Length)];
+                var randomRockTile = rockPrefabs[random.Next(0, rockPrefabs.Length)];
+                switch (node.Value.nodeType){
+                    case Node.NodeType.Wall:
+                        Instantiate(randomWallTile, GetPositionFromCoordinates(node.Value.position),
+                            Quaternion.identity, this.tileParent);
+                        break;
+                    case Node.NodeType.Rock:
+                        Instantiate(randomRockTile, GetPositionFromCoordinates(node.Value.position), 
+                            Quaternion.identity, this.tileParent);
+                        break;
+                    case Node.NodeType.Floor:
+                        Instantiate(floorPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
+                            this.tileParent);
+                        break;
+                    case Node.NodeType.EnemyBase:
+                        pathfinder.StartCoordinates = node.Value.position;
+                        var enemyBaseInstance =
+                            Instantiate(enemyBase, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
+                                this.tileParent);
+
+                        enemyBaseInstance.transform.rotation = node.Value.faceDirection switch{
+                            Node.FaceDirections.Right => Quaternion.Euler(0, 90, 0),
+                            Node.FaceDirections.Down => Quaternion.Euler(0, 180, 0),
+                            Node.FaceDirections.Left => Quaternion.Euler(0, -90, 0),
+                            Node.FaceDirections.Up => Quaternion.Euler(0, 0, 0),
+                            _ => throw new ArgumentOutOfRangeException()
+                        };
+                        break;
+                    case Node.NodeType.PlayerBase:
+                        pathfinder.EndCoordinates = node.Value.position;
+                        var playerBaseInstance =
+                            Instantiate(playerBase, GetPositionFromCoordinates(node.Value.position),
+                                Quaternion.identity,
+                                this.tileParent);
+
+                        playerBaseInstance.transform.rotation = node.Value.faceDirection switch{
+                            Node.FaceDirections.Right => Quaternion.Euler(0, 90, 0),
+                            Node.FaceDirections.Down => Quaternion.Euler(0, 180, 0),
+                            Node.FaceDirections.Left => Quaternion.Euler(0, -90, 0),
+                            Node.FaceDirections.Up => Quaternion.Euler(0, 0, 0),
+                            _ => throw new ArgumentOutOfRangeException()
+                        };
+                        break;
+                    case Node.NodeType.BlockedEmpty:
+                        Instantiate(invisibleBlockedPrefab, GetPositionFromCoordinates(node.Value.position),
+                            Quaternion.identity, this.tileParent);
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+
+                }
+            }
+        }
+
         IEnumerator PlaceTilesOnGrid(){
             //if (Grid == null) return;
             var random = new System.Random();
@@ -84,16 +154,17 @@ namespace PathFinding{
             }
 
             foreach (var node in Grid){
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(drawTilesSpeed);
                 var randomWallTile = wallPrefabs[random.Next(0, wallPrefabs.Length)];
+                var randomRockTile = rockPrefabs[random.Next(0, rockPrefabs.Length)];
                 switch (node.Value.nodeType){
                     case Node.NodeType.Wall:
                         Instantiate(randomWallTile, GetPositionFromCoordinates(node.Value.position),
                             Quaternion.identity, this.tileParent);
                         break;
                     case Node.NodeType.Rock:
-                        Instantiate(rockPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity,
-                            this.tileParent);
+                        Instantiate(randomRockTile, GetPositionFromCoordinates(node.Value.position), 
+                            Quaternion.identity, this.tileParent);
                         break;
                     case Node.NodeType.Floor:
                         Instantiate(floorPrefab, GetPositionFromCoordinates(node.Value.position), Quaternion.identity, this.tileParent);

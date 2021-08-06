@@ -48,7 +48,7 @@ namespace Enemies{
         }
 
         void FinishPath(){
-            enemy.StealGold();
+            enemy.LoseDominance();
             DisableEnemy();
         }
         IEnumerator FollowPath(){

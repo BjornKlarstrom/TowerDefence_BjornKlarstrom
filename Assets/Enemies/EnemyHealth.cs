@@ -29,7 +29,7 @@ namespace Enemies{
             if (currentHealth > 0) return;
             this.gameObject.SetActive(false);
             maxHealth += difficultyRamp;
-            enemy.RewardGold();
+            enemy.GainDominance();
         }
     }
 }

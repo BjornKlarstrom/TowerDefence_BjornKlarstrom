@@ -12,7 +12,7 @@ namespace Towers{
         }
 
         public bool CreateTower(Tower tower, Vector3 position){
-            var bank = FindObjectOfType<Bank>();
+            var bank = FindObjectOfType<Currency>();
 
             if (bank == null){
                 return false;
